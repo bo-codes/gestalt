@@ -1,0 +1,104 @@
+import React, { useState, useEffect } from "react";
+import "./ComingSoon.css";
+
+export default function ComingSoon() {
+  const completeText = "GESTALT 3D TECHNOLOGIES";
+  const completeText2 = "Coming Soon...";
+  const characters = "GESTALT3DTECHNOLOGIES";
+  const alph = characters.split("");
+
+  const [timeNumber, setTimeNumber] = useState(0);
+  const [timeText, setTimeText] = useState("");
+  const [randomChar, setRandomChar] = useState(0);
+  const [secondTimeNumber, setSecondTimeNumber] = useState(0);
+  const [secondTimeText, setSecondTimeText] = useState("");
+  const [cursorVis, setCursorVis] = useState("visible");
+  const [hit8, setHit8] = useState(0);
+
+  const randomCharIndex = () => {
+    return Math.floor(Math.random() * (alph.length - 0 + 1) + 0);
+  };
+
+  const calcText = (fullText) => {
+    return fullText.slice(0, timeNumber);
+  };
+
+  const secondCalcText = (fullText) => {
+    return fullText.slice(0, secondTimeNumber);
+  };
+
+  const calcTypeTimer = () => {
+    return Math.floor(Math.random() * (350 - 50 + 1) + 50);
+  };
+
+  // setTimeout(() => {
+  //   setSecondTimeText(secondCalcText(completeText))
+  //   setSecondTimeNumber(secondTimeNumber + 1)
+  // }, 1000)
+  useEffect(() => {
+    let gestaltInterval;
+    let scanTextInterval;
+    if (timeNumber <= completeText.length) {
+      gestaltInterval = setInterval(() => {
+        setRandomChar(alph[randomCharIndex()]);
+        if (hit8 === 8) {
+          setTimeNumber(timeNumber + 1);
+          setTimeText(calcText(completeText));
+          setHit8(0);
+          if (timeNumber === completeText.length) setRandomChar("");
+        } else setHit8(hit8 + 1);
+      }, 30);
+      return () => {
+        clearInterval(scanTextInterval);
+        clearInterval(gestaltInterval);
+      };
+    }
+    if (timeNumber >= completeText.length) {
+      let secondInterval;
+      if (secondTimeNumber <= completeText2.length + 1) {
+        secondInterval = setInterval(() => {
+          console.log(alph.length);
+          setSecondTimeNumber(secondTimeNumber + 1);
+          setSecondTimeText(secondCalcText(completeText2));
+        }, calcTypeTimer());
+        return () => clearInterval(secondInterval);
+      } else {
+        let thirdInterval;
+        if (secondTimeNumber >= completeText2.length) {
+          thirdInterval = setInterval(() => {
+            // console.log("bobo");
+            if (cursorVis === "visible") setCursorVis("hidden");
+            else setCursorVis("visible");
+          }, 650);
+        }
+        return () => clearInterval(thirdInterval);
+      }
+    }
+  });
+
+  return (
+    <div id="main-div-coming-soon-container">
+      <div id="main-div-coming-soon">
+        <div id="gestalt-text">
+          <div id="coming-soon-gestalt-text">{timeText}</div>
+          <span id="coming-soon-random-char">
+            {/* {String.fromCodePoint(parseInt(randomChar, 16))} */}
+            {randomChar}
+          </span>
+        </div>
+        <div id="coming-soon-text-and-cursor">
+          <span id="coming-soon-text" className="neon-text">
+            {secondTimeText}
+          </span>
+          <span
+            id="coming-soon-cursor"
+            className="neon-text"
+            style={{ visibility: `${cursorVis}` }}
+          >
+            |
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
