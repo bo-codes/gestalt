@@ -12,7 +12,7 @@ export default function ComingSoon() {
   const [randomChar, setRandomChar] = useState(0);
   const [secondTimeNumber, setSecondTimeNumber] = useState(0);
   const [secondTimeText, setSecondTimeText] = useState("");
-  const [cursorVis, setCursorVis] = useState("visible");
+  const [cursorVis, setCursorVis] = useState("hidden");
   const [hit8, setHit8] = useState(0);
 
   const randomCharIndex = () => {
@@ -57,7 +57,8 @@ export default function ComingSoon() {
       let secondInterval;
       if (secondTimeNumber <= completeText2.length + 1) {
         secondInterval = setInterval(() => {
-          console.log(alph.length);
+          // console.log(alph.length);
+          setCursorVis("visible");
           setSecondTimeNumber(secondTimeNumber + 1);
           setSecondTimeText(secondCalcText(completeText2));
         }, calcTypeTimer());
