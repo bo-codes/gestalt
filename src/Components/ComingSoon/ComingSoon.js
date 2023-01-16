@@ -4,8 +4,8 @@ import "./ComingSoon.css";
 export default function ComingSoon() {
   const completeText = "GESTALT 3D TECHNOLOGIES";
   const completeText2 = "Coming Soon...";
-  const characters = "GESTALT3DTECHNOLOGIES";
-  const alph = characters.split("");
+  // const characters = "GESTALT3DTECHNOLOGIES";
+  const alph = completeText.split(' ').join().split("");
 
   const [timeNumber, setTimeNumber] = useState(0);
   const [timeText, setTimeText] = useState("");
@@ -31,10 +31,6 @@ export default function ComingSoon() {
     return Math.floor(Math.random() * (350 - 50 + 1) + 50);
   };
 
-  // setTimeout(() => {
-  //   setSecondTimeText(secondCalcText(completeText))
-  //   setSecondTimeNumber(secondTimeNumber + 1)
-  // }, 1000)
   useEffect(() => {
     let gestaltInterval;
     let scanTextInterval;
