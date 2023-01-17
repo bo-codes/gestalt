@@ -85,9 +85,11 @@ export default function ComingSoon() {
           </span>
         </div>
         <div id="coming-soon-text-and-cursor">
-          <span>
-            <img src={envelopeImg} id="email-symbol" alt="envelope-icon" />
-          </span>
+          {timeNumber > completeText.length &&
+            <span>
+              <img src={envelopeImg} id="email-symbol" alt="envelope-icon" />
+            </span>
+          }
           <span id="coming-soon-text" className="neon-text">
             {secondTimeText}
           </span>
