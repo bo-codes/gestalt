@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./ComingSoon.css";
+import envelopeImg from '../../images/envelope.png'
 
 export default function ComingSoon() {
   const completeText = "GESTALT 3D TECHNOLOGIES";
-  const completeText2 = "Coming Soon...";
+  const completeText2 = "estevan@gestalt3d.com";
   // const characters = "GESTALT3DTECHNOLOGIES";
   const alph = completeText.split(' ').join().split("");
 
@@ -84,6 +85,9 @@ export default function ComingSoon() {
           </span>
         </div>
         <div id="coming-soon-text-and-cursor">
+          <span>
+            <img src={envelopeImg} id="email-symbol" alt="envelope-icon" />
+          </span>
           <span id="coming-soon-text" className="neon-text">
             {secondTimeText}
           </span>

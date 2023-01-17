@@ -45,6 +45,11 @@
   margin-left: 60px;
 }
 
+#email-symbol{
+  height: 1.5vh;
+  margin-right: .6vh;
+}
+
 #coming-soon-text-and-cursor{
   /* border: 1px solid orange; */
   margin-top: 10vh;
@@ -68,6 +73,7 @@
   color: white;
   letter-spacing: 2px;
   /* border: 1px solid purple; */
+  /* filter: blur(3px); */
 }
 
 @font-face {
