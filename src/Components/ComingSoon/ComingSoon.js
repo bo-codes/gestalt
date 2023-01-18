@@ -50,6 +50,7 @@ export default function ComingSoon() {
         setGestaltDone(1);
       }, 400);
     }
+    return () => clearInterval(firstDelayInterval);
   }, [timeNumber, completeText]);
 
   useEffect(() => {
