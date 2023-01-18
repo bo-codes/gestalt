@@ -12,6 +12,7 @@ export default function ComingSoon() {
   const [timeText, setTimeText] = useState("");
   const [randomChar, setRandomChar] = useState(0);
   const [animationDone, setAnimationDone] = useState(false);
+  const [gestaltDone, setGestaltDone] = useState(false);
   const [secondTimeNumber, setSecondTimeNumber] = useState(0);
   const [secondTimeText, setSecondTimeText] = useState("");
   const [cursorVis, setCursorVis] = useState("hidden");
@@ -33,13 +34,23 @@ export default function ComingSoon() {
     return Math.floor(Math.random() * (350 - 50 + 1) + 50);
   };
 
-    useEffect (() => {
-      let animationInterval;
-      animationInterval = setInterval(() => {
-        setAnimationDone(!animationDone)
-      }, 4200)
-      return () => clearInterval(animationInterval)
-    });
+  useEffect(() => {
+    let animationInterval;
+    animationInterval = setInterval(() => {
+      setAnimationDone(!animationDone);
+    }, 4200);
+    return () => clearInterval(animationInterval);
+  });
+
+
+  useEffect(() => {
+    if (timeNumber > completeText.length) {
+      let firstDelayInterval;
+      firstDelayInterval = setInterval(() => {
+        setGestaltDone(!gestaltDone);
+      }, 400);
+    }
+  }, [timeNumber, completeText]);
 
   useEffect(() => {
     let gestaltInterval;
@@ -85,6 +96,7 @@ export default function ComingSoon() {
     }
   });
 
+
   return (
     <div id="main-div-coming-soon-container">
       <div id="main-div-coming-soon">
@@ -95,7 +107,7 @@ export default function ComingSoon() {
             {randomChar}
           </span>
         </div>
-        {timeNumber > completeText.length ? (
+        {gestaltDone ? (
           <div id="coming-soon-text" className="neon-text">
             coming soon
           </div>
