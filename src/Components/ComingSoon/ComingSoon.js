@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./ComingSoon.css";
-import envelopeImg from '../../images/envelope.png'
+import envelopeImg from "../../images/envelope.png";
 
 export default function ComingSoon() {
   const completeText = "GESTALT 3D TECHNOLOGIES";
-  const completeText2 = "estevan@gestalt3d.com";
+  const completeText2 = "estevan@gestalt3d.com...";
   // const characters = "GESTALT3DTECHNOLOGIES";
-  const alph = completeText.split(' ').join().split("");
+  const alph = completeText.split(" ").join().split("");
 
   const [timeNumber, setTimeNumber] = useState(0);
   const [timeText, setTimeText] = useState("");
   const [randomChar, setRandomChar] = useState(0);
+  const [animationDone, setAnimationDone] = useState(false);
   const [secondTimeNumber, setSecondTimeNumber] = useState(0);
   const [secondTimeText, setSecondTimeText] = useState("");
   const [cursorVis, setCursorVis] = useState("hidden");
@@ -32,6 +33,14 @@ export default function ComingSoon() {
     return Math.floor(Math.random() * (350 - 50 + 1) + 50);
   };
 
+    useEffect (() => {
+      let animationInterval;
+      animationInterval = setInterval(() => {
+        setAnimationDone(!animationDone)
+      }, 4200)
+      return () => clearInterval(animationInterval)
+    });
+
   useEffect(() => {
     let gestaltInterval;
     let scanTextInterval;
@@ -50,26 +59,28 @@ export default function ComingSoon() {
         clearInterval(gestaltInterval);
       };
     }
-    if (timeNumber >= completeText.length) {
-      let secondInterval;
-      if (secondTimeNumber <= completeText2.length + 1) {
-        secondInterval = setInterval(() => {
-          // console.log(alph.length);
-          setCursorVis("visible");
-          setSecondTimeNumber(secondTimeNumber + 1);
-          setSecondTimeText(secondCalcText(completeText2));
-        }, calcTypeTimer());
-        return () => clearInterval(secondInterval);
-      } else {
-        let thirdInterval;
-        if (secondTimeNumber >= completeText2.length) {
-          thirdInterval = setInterval(() => {
-            // console.log("bobo");
-            if (cursorVis === "visible") setCursorVis("hidden");
-            else setCursorVis("visible");
-          }, 650);
+    if (animationDone) {
+      if (timeNumber > completeText.length) {
+        let secondInterval;
+        if (secondTimeNumber <= completeText2.length + 1) {
+          secondInterval = setInterval(() => {
+            // console.log(alph.length);
+            setCursorVis("visible");
+            setSecondTimeNumber(secondTimeNumber + 1);
+            setSecondTimeText(secondCalcText(completeText2));
+          }, calcTypeTimer());
+          return () => clearInterval(secondInterval);
+        } else {
+          let thirdInterval;
+          if (secondTimeNumber >= completeText2.length) {
+            thirdInterval = setInterval(() => {
+              // console.log("bobo");
+              if (cursorVis === "visible") setCursorVis("hidden");
+              else setCursorVis("visible");
+            }, 650);
+          }
+          return () => clearInterval(thirdInterval);
         }
-        return () => clearInterval(thirdInterval);
       }
     }
   });
@@ -84,20 +95,21 @@ export default function ComingSoon() {
             {randomChar}
           </span>
         </div>
-        <div id="coming-soon-text-and-cursor">
-          {timeNumber > completeText.length &&
+        {timeNumber > completeText.length ? (
+          <div id="coming-soon-text" className="neon-text">
+            coming soon
+          </div>
+        ) : (
+          <div id="coming-soon-text-placeholder"></div>
+        )}
+        <div id="email-text-and-cursor">
+          {animationDone && (
             <span>
               <img src={envelopeImg} id="email-symbol" alt="envelope-icon" />
             </span>
-          }
-          <span id="coming-soon-text" className="neon-text">
-            {secondTimeText}
-          </span>
-          <span
-            id="coming-soon-cursor"
-            className="neon-text"
-            style={{ visibility: `${cursorVis}` }}
-          >
+          )}
+          <span id="email-text">{secondTimeText}</span>
+          <span id="email-cursor" style={{ visibility: `${cursorVis}` }}>
             |
           </span>
         </div>
