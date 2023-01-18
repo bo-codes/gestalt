@@ -270,6 +270,179 @@
 
 @media (max-width: 824px){
   #gestalt-text{
-    font-size: 6vw;
+    font-size: 6.8vw;
+    margin-left: 1vh;
+  }
+}
+
+@media (max-width: 500px){
+  #gestalt-text{
+    font-size: 6.4vw;
+    margin-left: 1.4vh;
+  }
+  #email-text {
+    font-size: 1.7vh;
+  }
+
+  #coming-soon-text {
+    font-size: 2.3vh;
+  }
+
+  @keyframes focus {
+    0% {
+      opacity: 100;
+      filter: blur(3.5px);
+      text-shadow: none;
+    }
+
+    5% {
+      opacity: 0;
+      filter: blur(3.5px);
+      text-shadow: none;
+    }
+
+    12% {
+      opacity: 100;
+      filter: blur(3.5px);
+      text-shadow: none;
+    }
+
+    20% {
+      opacity: 0;
+      filter: blur(3.5px);
+      font-size: 2.4vh;
+      text-shadow: none;
+    }
+
+    30% {
+      font-size: 2.6vh;
+      filter: blur(4.5px);
+      text-shadow:
+        0 0 6px rgba(255, 255, 255, 0.519),
+        0 0 11px rgba(255, 255, 255, 0.583),
+        0 0 16px rgba(255, 255, 255, 0.555),
+        0 0 16px rgba(255, 255, 255, 0.434),
+        0 0 18px rgb(255, 255, 255);
+    }
+
+    /* 40% {
+    opacity: 90;
+    filter: blur(7px);
+    font-size: 3.4vh;
+  } */
+    40% {
+      opacity: 100;
+      filter: blur(1px);
+      font-size: 2.4vh;
+      text-shadow:
+        0 0 1px rgba(255, 255, 255, 0.519),
+        0 0 1px rgba(255, 255, 255, 0.583),
+        0 0 1px rgba(255, 255, 255, 0.555),
+        0 0 1px rgba(255, 255, 255, 0.434),
+        0 0 1px rgb(255, 255, 255);
+    }
+
+    45% {
+      opacity: 100;
+      filter: blur(1px);
+      font-size: 2.4vh;
+      text-shadow:
+        0 0 1px rgba(255, 255, 255, 0.519),
+        0 0 1px rgba(255, 255, 255, 0.583),
+        0 0 1px rgba(255, 255, 255, 0.555),
+        0 0 1px rgba(255, 255, 255, 0.434),
+        0 0 1px rgb(255, 255, 255);
+    }
+
+    50% {
+      opacity: 100;
+      filter: blur(2px);
+      font-size: 2.4vh;
+      text-shadow:
+        0 0 1px rgba(255, 255, 255, 0.519),
+        0 0 1px rgba(255, 255, 255, 0.583),
+        0 0 1px rgba(255, 255, 255, 0.555),
+        0 0 1px rgba(255, 255, 255, 0.434),
+        0 0 1px rgb(255, 255, 255);
+    }
+
+    /* 50% {
+    opacity: 100;
+    filter: blur(6px);
+    font-size: 3.4vh;
+    text-shadow: none;
+  } */
+    65% {
+      opacity: 100;
+      filter: blur(1px);
+      font-size: 2.4vh;
+      text-shadow:
+        0 0 1px rgba(255, 255, 255, 0.519),
+        0 0 1px rgba(255, 255, 255, 0.583),
+        0 0 1px rgba(255, 255, 255, 0.555),
+        0 0 1px rgba(255, 255, 255, 0.434),
+        0 0 1px rgb(255, 255, 255);
+    }
+
+    76% {
+      opacity: 100;
+      filter: blur(7px);
+      /* text-shadow: none; */
+      text-shadow:
+        0 0 6px rgba(255, 255, 255, 0.519),
+        0 0 11px rgba(255, 255, 255, 0.583),
+        0 0 16px rgba(255, 255, 255, 0.555),
+        0 0 16px rgba(255, 255, 255, 0.434),
+        0 0 18px rgb(255, 255, 255);
+    }
+
+    77% {
+      opacity: 0;
+      filter: blur(7px);
+      font-size: 2.3vh;
+      /* text-shadow: none; */
+      text-shadow:
+        0 0 6px rgba(255, 255, 255, 0.519),
+        0 0 11px rgba(255, 255, 255, 0.583),
+        0 0 16px rgba(255, 255, 255, 0.555),
+        0 0 16px rgba(255, 255, 255, 0.434),
+        0 0 18px rgb(255, 255, 255);
+    }
+
+    78% {
+      opacity: 100;
+      filter: blur(8px);
+      font-size: 2.6vh;
+      /* text-shadow: none; */
+      text-shadow:
+        0 0 6px rgba(255, 255, 255, 0.519),
+        0 0 11px rgba(255, 255, 255, 0.583),
+        0 0 16px rgba(255, 255, 255, 0.555),
+        0 0 16px rgba(255, 255, 255, 0.434),
+        0 0 18px rgb(255, 255, 255);
+    }
+
+    90% {
+      filter: none;
+      font-size: 2.3vh;
+      color: #fff;
+      text-shadow:
+        0 0 1px rgba(255, 255, 255, 0.519),
+        0 0 1px rgba(255, 255, 255, 0.583),
+        0 0 1px rgba(255, 255, 255, 0.555),
+        0 0 1px rgba(255, 255, 255, 0.434),
+        0 0 1px rgb(255, 255, 255);
+    }
+
+    100% {
+      font-size: 2.3vh;
+      color: #fff;
+      text-shadow:
+        0 0 1px rgba(255, 255, 255, 0.519),
+        0 0 1px rgba(255, 255, 255, 0.583),
+        0 0 1px rgba(255, 255, 255, 0.555),
+        0 0 1px rgba(255, 255, 255, 0.434),
+        0 0 1px rgb(255, 255, 255);
+    }
   }
 }
