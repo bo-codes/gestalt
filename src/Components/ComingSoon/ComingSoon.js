@@ -49,8 +49,8 @@ export default function ComingSoon() {
       firstDelayInterval = setInterval(() => {
         setGestaltDone(1);
       }, 400);
+      return () => clearInterval(firstDelayInterval);
     }
-    return () => clearInterval(firstDelayInterval);
   }, [timeNumber, completeText]);
 
   useEffect(() => {
