@@ -12,7 +12,7 @@ export default function ComingSoon() {
   const [timeText, setTimeText] = useState("");
   const [randomChar, setRandomChar] = useState(0);
   const [animationDone, setAnimationDone] = useState(false);
-  const [gestaltDone, setGestaltDone] = useState(false);
+  const [gestaltDone, setGestaltDone] = useState(0);
   const [secondTimeNumber, setSecondTimeNumber] = useState(0);
   const [secondTimeText, setSecondTimeText] = useState("");
   const [cursorVis, setCursorVis] = useState("hidden");
@@ -47,7 +47,7 @@ export default function ComingSoon() {
     if (timeNumber > completeText.length) {
       let firstDelayInterval;
       firstDelayInterval = setInterval(() => {
-        setGestaltDone(!gestaltDone);
+        setGestaltDone(1);
       }, 400);
     }
   }, [timeNumber, completeText]);
