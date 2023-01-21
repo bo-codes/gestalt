@@ -22,18 +22,15 @@
 #gestalt-text{
   display: flex;
   font-size: 7vw;
-  /* border: 1px solid purple; */
   justify-content: center;
   padding-left: 3.5vh;
+  /* border: 1px solid purple; */
 }
 
 #coming-soon-gestalt-text {
   font-family: futura-pt, sans-serif;
   font-weight: 400;
   font-style: normal;
-  /* font-family: garamond-premier-pro, serif;
-  font-weight: 400;
-  font-style: normal; */
   float: left;
 }
 
