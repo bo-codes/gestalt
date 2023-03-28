@@ -1,7 +1,7 @@
 import resolve from "@rollup/plugin-node-resolve";
 
 export default {
-  input: "src/app.js",
+  input: "src/App.js",
   output: [
     {
       format: "esm",
@@ -10,3 +10,5 @@ export default {
   ],
   plugins: [resolve()],
 };
+
+//BUILD SCRIPT: rollup -c ./rollup.config.mjs

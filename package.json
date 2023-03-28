@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "rollup -c ./rollup.config.js",
+    "build": "react-scripts build",
     "watch": "rollup -w -c ./rollup.config.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

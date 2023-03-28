@@ -20,9 +20,9 @@ const Navbar = () => {
     <div id="navbar-container">
       <img id="nav-logo" src={logo} alt='Gestalt3D logo'/>
       <ul id="navlink-container">
-        {navData.navLinks.map((navlink) => {
+        {navData.navLinks.map((navlink, i) => {
           return (
-            <li>
+            <li key={i}>
               <NavLink
                 to={navlink.path}
                 className={

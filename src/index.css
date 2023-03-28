@@ -15,3 +15,20 @@ body,html {
   background-color: black;
   /* border: 1px solid blue; */
 }
+
+#loading-screen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid; */
+}
+
+#loading-gif {
+  height: 24vw;
+  width: 24vw;
+  background-size: contain;
+  background-repeat: no-repeat;
+  /* border: 1px solid blue; */
+}
