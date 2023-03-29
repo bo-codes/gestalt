@@ -50,11 +50,8 @@
   text-decoration: none;
 }
 
-#about-text {
+#about-text-2 {
   /* border: 1px solid blue; */
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
   margin-top: 30px;
   line-height: 1.4;
   font-family: "omnes-georgian", sans-serif;
@@ -63,14 +60,6 @@
   font-style: normal;
   font-size: calc(13px + .2vw);
   color: #8e8e8e;
-}
-
-.text-char {
-  /* border: 1px solid orange; */
-  width: 12px;
-  display: flex;
-  justify-content: center;
-  /* word-wrap: break-word; */
 }
 
 /* pre {

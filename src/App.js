@@ -8,6 +8,7 @@ import HomePage from "./Components/pages/HomePage/HomePage";
 import Navbar from "./Components/Navbar/Navbar";
 
 export default function App() {
+
   return (
     <div id="main-div">
       <Navbar />

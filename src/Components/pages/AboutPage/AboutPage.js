@@ -1,94 +1,24 @@
 import "./AboutPage.css";
 import aboutImg from "../../../images/about.jpg";
 import loadingImg from "../../../images/gestalt.gif";
-import { generateText } from "../../../utils/randomAboutGen";
-import React, { useState, useEffect } from "react";
+import TextScan from "../../TextScan/TextScan";
+import React, { useState } from "react";
+// import { generateText } from "../../../utils/randomAboutGen";
 
-const estevanText = generateText("estevan", 52);
-
-const used = {};
+// const estevanText = generateText("estevan", 52);
 
 const AboutPage = () => {
-  // actual in-order text
-  let alph =
+
+  let used = {};
+
+  const alph =
     "estevan is a vdc man who does vdc and other cool things. he likes doing vdc as well as vdc and not only likes it, but is good at it. he enjoys sleeping in the sink with his feet in the freezer. he also is fantastic at other things like dancing and eating ramen. Thats about everything that I know about estevan I think.";
-
-  // in-order text split into indiv characters
-  let letters = alph.split("");
-
-  // returns paragraph with same amount of characters as the text we are going to display, but characters are random
-  let randomizedAlph = (letters) => {
-    const randomizedP = [];
-    for (let char of letters) {
-      // randomizedP.push(letters[randomCharIndex()])
-      randomizedP.push("0");
-    }
-    return randomizedP.join("");
-  };
-
-  // returns a random index number that is within the text we are going to display
-  const randomCharIndex = () => {
-    return Math.floor(Math.random() * (alph.length - 0 + 1) + 0);
-  };
 
   // keeps track of whether photo loaded/helps us set out 2s delay
   const [loading, setLoading] = useState(true);
-  // this will hold the text we will be displaying in the about-desc
-  const [text, setText] = useState(randomizedAlph(letters));
-  // this will keep track of how many letters of the alphabet we have gone through
-  const [hit45, setHit45] = useState(0);
-  // this will keep track of how many letter switches we have/the scan effect
-  const [hit8, setHit8] = useState(0);
 
-  useEffect(() => {
-    let alphabet = "abcdetg,hijk.lmnop'qr sufvwxyz;?-&1234567890!".split("");
-    const randomFunc = () => {
-      if (hit8 === 8) {
-        setHit8(0);
-        alphabet = alphabet.slice(hit45);
-        const correctLetterToSet = alphabet[0];
-        used[correctLetterToSet] = 1;
-      }
-
-      const newP = [];
-
-      // for each character of the paragraph, if the character is in the object, don't touch it and just push it, otherwise, push a random character in its place
-      for (let char of letters) {
-        // if we havent stored the current char in the object, push a random character in its place
-        if (used[char.toLowerCase()] !== 1) {
-          newP.push(alph[randomCharIndex()]);
-          // if this character is in our object, we just push the character as it is
-        } else {
-          newP.push(char);
-        }
-      }
-
-      setText(newP.join(""));
-    };
-
-    let animationInterval;
-    if (hit45 <= 45) {
-      animationInterval = setInterval(() => {
-        if (hit8 === 8) {
-          setHit45(hit45 + 1);
-          randomFunc();
-        } else {
-          randomFunc();
-          setHit8(hit8 + 1);
-        }
-      }, 20);
-      return () => clearInterval(animationInterval);
-    }
-  });
-
-  const addChars = (textLength) => {
-    let addedChars = [];
-    for(let i = 0; i < 319 - textLength; i++) {
-      addedChars.push('a')
-    }
-    return addedChars;
-  }
-
+  const lorem =
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur fugiat, temporibus enim commodi iusto libero magni deleniti quod quam consequuntur! Commodi minima excepturi repudiandae velit hic maxime doloremque. Quaerat provident commodi consectetur veniam similique ad earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniamquasi aliquam eligendi, placeat qui corporis!";
 
   return (
     <>
@@ -115,31 +45,19 @@ const AboutPage = () => {
           >
             estevan@gestalt3d.com
           </a> */}
-          <div id="about-text">
-            {text.split("").map((char, i, arr) => {
-              return <div className="text-char" key={i}>{char}</div>;
-            })}
-            {text.split("").length !== 319 ? (
-              addChars(text.split("").length).map((char, i) => {
-                return <div className="text-char" key={i}>{char}</div>;
-              })
-            ) : (<></>)}
+          {!loading && (
+            <TextScan value={alph} scanStyle={'alph'}/>
+          )}
+
+          <div id="about-text-2">
+            {lorem.slice(0, lorem.length / 3)}
+            <br /> <br />
+            {lorem.slice(lorem.length / 3, lorem.length / 1.5)}
+            <br /> <br />
+            {lorem.slice(lorem.length / 1.5, lorem.length / 0.75)}
+            <br /> <br />
+            {lorem.slice(lorem.length / 0.75, lorem.length)}
           </div>
-          {/* <div id="about-text">
-            {estevanText.slice(0, estevanText.length / 3)}
-            <br /> <br />
-            {estevanText.slice(
-              estevanText.length / 3,
-              estevanText.length / 1.5
-            )}
-            <br /> <br />
-            {estevanText.slice(
-              estevanText.length / 1.5,
-              estevanText.length / 0.75
-            )}
-            <br /> <br />
-            {estevanText.slice(estevanText.length / 0.75, estevanText.length)}
-          </div> */}
         </div>
       </div>
       <div id="loading-screen" style={{ display: loading ? "flex" : "none" }}>
@@ -153,19 +71,3 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
-
-// this function creates the entire paragraph.
-// each second, the paragraph is iterated through, and each character is assigned different character
-// how do we keep track of which characters are the correct characters now: store their indexes in an object when we set the paragraph each time
-// each time the paragraph is about to be iterated through again to created the new paragraph, it checks if the index it is currently changing is in the object,
-// if it is in the pbject, it just continues to the next char
-// if the object has all chracters from  alph, clearInterval
-
-// for each character, push the character to a new arr so we can store a new str while still having access to the old one to reference to.
-
-// set an interval, while that interval is running, keep scanning letters
-// once the interval is finished, display the correct letter.
-
-// is aco t on mdtiiviu da reioe iudva.hotios eictavno suod nti aweahuchv ntekslo d.otwithsgint ewiaouvgeofi gaht i.etieghsinl h atj t.stIhie e snaokslhoo k eyimhcf g.i ntnenno nlt iotssdattenIent h deta ds n t svaysl relowkn ssndueetedodI beoonz we boa. at iheoki hyniinlnales,jnatsnw eo n vIleoht.na tateTteiwe n
-
-// ovnava goklaee o aeaaedTvae eco aIbhie iksoihsond o ei n feebteng knh ihanie hadaob wsia eaTvuent szik, tldieet de dcean ai ton he iyanrtdehkdhayeclwaIvk angosattityvsdihnfh,tegntkgsethhvrasiet ejhaina td aaast jn r yaoim Te ciaeniwIeaid rak oa. aaemte vaeh atehoo tdtys hbedcdaklr iaeaoah ag t a ad t a.gdsn

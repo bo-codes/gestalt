@@ -18,6 +18,7 @@ export default function HomePage() {
 
   const [hit8, setHit8] = useState(0);
 
+  //
   const randomCharIndex = () => {
     return Math.floor(Math.random() * (alph.length - 0 + 1) + 0);
   };
@@ -26,15 +27,27 @@ export default function HomePage() {
     return fullText.slice(0, timeNumber);
   };
 
-  useEffect(() => {
-    let animationInterval;
-    animationInterval = setInterval(() => {
-      setAnimationDone(!animationDone);
-    }, 4200);
-    return () => clearInterval(animationInterval);
-  });
+  // calculates the snippet we want of the email text
+  // const secondCalcText = (fullText) => {
+  //   return fullText.slice(0, secondTimeNumber);
+  // };
+
+  // calculates the amount of time it should take to type the next letter of the email. We want it to be irregular, that's why
+  // const calcTypeTimer = () => {
+  //   return Math.floor(Math.random() * (350 - 50 + 1) + 50);
+  // };
+
+  // useEffect(() => {
+  //   let animationInterval;
+  //   animationInterval = setInterval(() => {
+  //     setAnimationDone(!animationDone);
+  //   }, 4200);
+  //   return () => clearInterval(animationInterval);
+  // });
 
   useEffect(() => {
+    console.log(animationDone)
+    console.log(timeText)
     let gestaltInterval;
     if (timeNumber <= completeText.length) {
       gestaltInterval = setInterval(() => {
@@ -48,9 +61,10 @@ export default function HomePage() {
       }, 30);
 
       const stopAnimation = () => {
-        setTimeText(completeText);
-        setRandomChar("");
-        setTimeNumber(completeText.length + 1);
+        // setTimeText(completeText)
+        // setTimeNumber(completeText.length + 1);
+        // setRandomChar('')
+        setAnimationDone(true)
         document.removeEventListener("click", stopAnimation);
         document.removeEventListener("keypress", stopAnimation);
       };
@@ -60,14 +74,28 @@ export default function HomePage() {
         clearInterval(gestaltInterval);
       };
     }
+    return () => setAnimationDone(false)
   });
 
   return (
     <div id="main-div-coming-soon">
-      <div id="gestalt-text">
-        <div id="coming-soon-gestalt-text">{timeText}</div>
-        <span id="coming-soon-random-char">{randomChar}</span>
-      </div>
+        <div id="gestalt-text">
+          {animationDone ? (
+            <>
+              <div id="coming-soon-gestalt-text">{completeText}</div>
+              <span id="coming-soon-random-char">
+                    {''}
+                  </span>
+            </>
+            ) : (
+              <>
+                <div id="coming-soon-gestalt-text">{timeText}</div>
+                <span id="coming-soon-random-char">
+                  {randomChar}
+                </span>
+              </>
+          )}
+        </div>
     </div>
   );
 }
