@@ -13,7 +13,7 @@ const SplitText = ({text}) => {
     let nextSectionEnd = subsectionLength;
     let remainingText = rawText.length;
     while (nextSectionEnd < rawText.length) {
-      sections.push(rawText.slice(sectionStart, nextSectionEnd).join(''))
+      sections.push(rawText.slice(sectionStart, nextSectionEnd).join(' '))
       sectionStart = nextSectionEnd;
       nextSectionEnd += subsectionLength;
       remainingText -= subsectionLength;
