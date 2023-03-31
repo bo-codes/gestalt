@@ -1,14 +1,18 @@
 #navbar-container {
+  box-sizing: border-box;
   /* border: 1px solid purple; */
+  background-color: black;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  height: 10%;
-  width: 86%;
+  height: 12vw;
+  width: 100%;
+  padding: 0 7%;
+  /* z-index: 1; */
 }
 
 #nav-logo {
-  /* border: 1px solid orange; */
+  /* border: 1px solid orange;  */
   height: 6vw;
   max-height: 55px;
   padding: 20px 10px 0px 10px;

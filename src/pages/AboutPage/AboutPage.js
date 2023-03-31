@@ -1,15 +1,13 @@
 import "./AboutPage.css";
-import aboutImg from "../../../images/about.jpg";
-import loadingImg from "../../../images/gestalt.gif";
-import TextScan from "../../TextScan/TextScan";
+import aboutImg from "../../images/about.jpg";
+import loadingImg from "../../images/gestalt.gif";
+import TextScan from "../../Components/TextScan/TextScan"
 import React, { useState } from "react";
 // import { generateText } from "../../../utils/randomAboutGen";
 
 // const estevanText = generateText("estevan", 52);
 
 const AboutPage = () => {
-
-  let used = {};
 
   const alph =
     "estevan is a vdc man who does vdc and other cool things. he likes doing vdc as well as vdc and not only likes it, but is good at it. he enjoys sleeping in the sink with his feet in the freezer. he also is fantastic at other things like dancing and eating ramen. Thats about everything that I know about estevan I think.";

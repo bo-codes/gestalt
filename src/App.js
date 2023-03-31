@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 // import ComingSoon from "./Components/pages/ComingSoon/ComingSoon";
-import WorkPage from "./Components/pages/WorkPage/WorkPage";
-import AboutPage from "./Components/pages/AboutPage/AboutPage";
-import ServicesPage from "./Components/pages/ServicesPage/ServicesPage";
-import HomePage from "./Components/pages/HomePage/HomePage";
+import WorkPage from "./pages/WorkPage/WorkPage";
+import AboutPage from "./pages/AboutPage/AboutPage";
+import ServicesPage from "./pages/ServicesPage/ServicesPage";
+import HomePage from "./pages/HomePage/HomePage";
 import Navbar from "./Components/Navbar/Navbar";
 
 export default function App() {

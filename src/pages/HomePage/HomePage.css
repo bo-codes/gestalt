@@ -7,8 +7,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* border: 1px solid orange; */
   height: 90%;
+  height: 80vh;
+  /* border: 1px solid orange; */
 }
 
 #gestalt-text {
