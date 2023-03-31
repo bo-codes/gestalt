@@ -20,7 +20,9 @@
 }
 
 .service {
-  border: 1px solid orange;
+  /* border: 1px solid orange; */
+  background-color: rgba(128, 128, 128, 0.419);
   width: calc(300px + 11vw);
   height: calc(200px + 11vw);
+  margin: 20px;
 }
