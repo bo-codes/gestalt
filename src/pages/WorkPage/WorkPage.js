@@ -1,9 +1,10 @@
+import IfcModelViewer from '../../Components/IfcViewer/IfcSandbox';
 import './WorkPage.css'
 
 const WorkPage = () => {
   return (
     <div>
-      <div>WorkPage</div>
+      <div><IfcModelViewer /></div>
     </div>
   )
 }
