@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./HomePage.css";
+import ThreeFileViewer from "../../Components/ObjectViewer/ObjectViewer";
+// import gestaltCube from "../../images/models/gestalt_cube_cut_2.obj"
 
 export default function HomePage() {
   const completeText = "GESTALT 3D TECHNOLOGIES";
@@ -46,8 +48,8 @@ export default function HomePage() {
   // });
 
   useEffect(() => {
-    console.log(animationDone)
-    console.log(timeText)
+    // console.log(animationDone)
+    // console.log(timeText)
     let gestaltInterval;
     if (timeNumber <= completeText.length) {
       gestaltInterval = setInterval(() => {
@@ -96,6 +98,7 @@ export default function HomePage() {
               </>
           )}
         </div>
+          <ThreeFileViewer/>
     </div>
   );
 }
