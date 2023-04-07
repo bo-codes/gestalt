@@ -17,7 +17,7 @@
 
 #about-img {
   width: 100%;
-  /* border-radius: 50%; */
+  border-radius: 50%;
 }
 
 #about-desc {
@@ -29,21 +29,39 @@
 
 #about-name {
   font-size: calc(15px + 3.5vw);
-  /* font-size: 4vw; */
   font-family: futura-pt, sans-serif;
   font-weight: 500;
   letter-spacing: .05vw;
   text-transform: uppercase;
-  /* color: #2f316b; */
-  /* color: #4f3b5d; */
 }
 
 #about-titles {
+  /* -------- MISC SCHEMES -------- vv*/
   /* color: #8e8e8e; */
   /* color: #4f3b5d; */
   /* color: #4f4c91; */
-  color: #41438c;
+  /* -------- MISC SCHEMES -------- ^^*/
+  /*  */
+  /*  */
+  /*  */
+  /* -------- BLUE SCHEME -------- vv*/
+  /* color: #41438c; */
+  /* -------- BLUE SCHEME -------- ^^*/
+  /*  */
+  /*  */
+  /*  */
+  /* -------- GREEN SCHEME -------- vv*/
   color: #5b446c;
+  /* -------- GREEN SCHEME -------- ^^*/
+  /*  */
+  /*  */
+  /*  */
+  /* -------- BRIGHTER SCHEME -------- vv*/
+  color: #8c5ead;
+  /* -------- BRIGHTER SCHEME -------- ^^*/
+  /*  */
+  /*  */
+  /*  */
   font-family: "omnes-georgian", sans-serif;
   font-weight: 500;
   font-style: normal;
@@ -62,7 +80,3 @@
   font-size: calc(13px + .2vw);
   color: #8e8e8e;
 }
-
-/* pre {
-  width: 80ch;
-} */

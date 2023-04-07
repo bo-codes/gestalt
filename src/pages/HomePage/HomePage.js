@@ -98,7 +98,9 @@ export default function HomePage() {
               </>
           )}
         </div>
+        <div id="three-container">
           <ThreeFileViewer/>
+        </div>
     </div>
   );
 }

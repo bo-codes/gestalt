@@ -1,5 +1,5 @@
 import "./AboutPage.css";
-import aboutImg from "../../images/about_3.jpg";
+import aboutImg from "../../images/about.jpg";
 import loadingImg from "../../images/gestalt.gif";
 import TextScan from "../../Components/TextScan/TextScan"
 import React, { useState } from "react";

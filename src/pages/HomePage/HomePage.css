@@ -14,7 +14,7 @@
 
 #gestalt-text {
   display: flex;
-  font-size: 7vw;
+  font-size: 7.5vw;
   justify-content: center;
   padding-left: 3.5vh;
   padding-bottom: 150px;
@@ -242,6 +242,12 @@
   font-weight: 600;
   letter-spacing: 3px;
   /* border: 1px solid purple; */
+}
+
+#three-container {
+  /* border: 1px solid blue; */
+  /* width: 200px;
+  height: 200px; */
 }
 
 @font-face {

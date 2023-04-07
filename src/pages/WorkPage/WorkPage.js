@@ -4,7 +4,7 @@ import './WorkPage.css'
 const WorkPage = () => {
   return (
     <div>
-      <div><IfcModelViewer /></div>
+      {/* <div><IfcModelViewer /></div> */}
     </div>
   )
 }

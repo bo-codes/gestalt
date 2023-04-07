@@ -102,7 +102,7 @@ const TextScan = ({value, scanStyle}) => {
           randomFunc();
           setHit8(hit8 + 1);
         }
-      }, 5);
+      }, 2);
       return () => clearInterval(animationInterval);
     }
     return () => (used = {});
