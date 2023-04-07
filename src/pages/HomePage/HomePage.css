@@ -297,6 +297,10 @@
     font-size: 2.3vh;
   }
 
+  #three-container {
+    
+  }
+
   @keyframes focus {
     0% {
       opacity: 100;
