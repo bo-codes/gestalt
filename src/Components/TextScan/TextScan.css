@@ -12,3 +12,7 @@
   font-size: calc(13px + .2vw);
   color: #8e8e8e;
 }
+
+.textscan-word {
+  display: flex;
+}

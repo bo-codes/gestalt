@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "./TextScan.css";
 
-
 /* THE WAY THAT THIS COMPONENT WORKS IS THAT IT:
 - TAKES A BODY OF TEXT
 - SPLITS THE BODY OF TEXT INTO CHARS
@@ -13,9 +12,9 @@ import "./TextScan.css";
 
 // BUILT-IN STYLE FOR EACH CHARACTER
 const Character = styled.div`
-width: 12px;
-display: flex;
-justify-content: center;
+  width: 12px;
+  display: flex;
+  justify-content: center;
 `;
 
 // BUILT-IN STYLE FOR FADED CHARACTER
@@ -27,10 +26,10 @@ const FadedCharacter = styled(Character)`
 // WE ADD LETTERS FROM OUR TEXT BODY TO IT
 let used = {};
 
-
-const TextScan = ({value, scanStyle}) => {
+const TextScan = ({ value, scanStyle }) => {
   // in-order text split into indiv characters
   let letters = value.split("");
+  console.log(letters)
 
   //  ------------------- SOLELY USED TO CREATE A RANDOMIZED PARAGRAPH OF LETTERS, THE SAME LENGTH AS OUR INTAKEN TEXT BODY ------------------- vv
   // returns a random index number that is within the body of text we intook
@@ -86,12 +85,14 @@ const TextScan = ({value, scanStyle}) => {
       }
 
       const newP = [];
-
+      // let wordArr = [];
+      let currWordArr = [];
       // for each character of the paragraph, if the character is in the object, don't touch it and just push it, otherwise, push a random character in its place
       for (let i = 0; i < letters.length; i++) {
-        let char = letters[i];
+        let capChar = letters[i];
+        let char = capChar.toLowerCase();
         // if we havent stored the current char in the object, push a random character in its place
-        if (used[char.toLowerCase()] !== 1) {
+        if (used[char] !== 1) {
           if (scanStyle === "digit") {
             // USING 0 AND 8 AS THE RANDOM CHARS FOR THE SCAN
             if (i % 2 === 0) {
@@ -100,18 +101,30 @@ const TextScan = ({value, scanStyle}) => {
               newP.push("8");
             }
           }
-          if (scanStyle === "alph") {
+        }
+        if (scanStyle === "alph") {
+          if (char === " " || i === letters.length - 1) {
+            currWordArr.push(<Character>{capChar}</Character>);
+            newP.push(<div className="textscan-word">{currWordArr}</div>);
+            currWordArr = [];
+          }
+          else if(used[char] === 1) {
+            currWordArr.push(<Character>{capChar}</Character>);
+          }
+          else {
             // USING AN ACTUAL RANDOM CHAR FROM THE TEXT AS THE RANDOM CHARS FOR THE SCAN
-            newP.push(value[randomCharIndex()]);
+            currWordArr.push(
+              <FadedCharacter>{value[randomCharIndex()]}</FadedCharacter>
+            );
           }
 
           // if this character is in our object, we just push the character as it is in full opacity/render it
         } else {
-          newP.push(char);
+          currWordArr.push(<Character>{capChar}</Character>);
         }
       }
 
-      setText(newP.join(""));
+      setText(newP);
     };
     // CREATE INTERVAL
     let animationInterval;
@@ -124,7 +137,7 @@ const TextScan = ({value, scanStyle}) => {
           // increment the hitUniqueChars state because we are about to add a new unique char to the used OBJ by calling the randomFunc function
           setHitUniqueChars(hitUniqueChars + 1);
           randomFunc();
-        // otherwise, just call the randomFunc which will render no new unique characters in their respective correct place
+          // otherwise, just call the randomFunc which will render no new unique characters in their respective correct place
         } else {
           randomFunc();
           // make sure to increment the count8 so that after doing these random character renders 8 times, we finally add a new char from uniqueChars to the used OBJ and render it the next time we call the randomFunc function after that
@@ -146,9 +159,44 @@ const TextScan = ({value, scanStyle}) => {
     return addedChars;
   };
 
+  //  function will:
+  //  - take letters.split() which is all letters in the input text
+  //  - for each letter/char:
+  //      - if the char is in the used obj, then push the char as a Character component into an arr, else, push a random letter into an arr.
+  //      - if the char is a space, push the space as it is
+  //      - join all chars
+  //      - split the new randomized chars at the spaces
+
+  // const calcText = (lettersArr) => {
+  //   let wordArr = [];
+  //   let currWordArr = [];
+  //   for (let i = 0; i < lettersArr.length; i++) {
+  //     let char = lettersArr[i];
+  //     if (char === " ") {
+  //       currWordArr.push(<Character>{char}</Character>);
+  //       wordArr.push(<div className="textscan-word">{currWordArr}</div>);
+  //       currWordArr = [];
+  //     } else {
+  //       if (used[char] !== 1) {
+  //         currWordArr.push(<FadedCharacter>{char}</FadedCharacter>);
+  //       } else currWordArr.push(<Character>{char}</Character>);
+  //     }
+  //   }
+  //   return wordArr;
+  // };
+
+  // console.log(calcText(letters))
+
+  // outcome of this should be [[w,o,r,d],[w,o,r,d],[w,o,r,d]]
+
+  // for each arr in the wordsArr:
+  //    - for each letter, return the letter as Character
+  //    - return div with all the letters in the div
+  // wordsArr.join(<Character>" "</Character>)
+
   return (
     <div id="about-text">
-      {text.split("").map((char, i, arr) => {
+      {/* {text.split("").map((char, i, arr) => {
         // if the char is stored in our used OBJ, render it with the "Character" styled div
         return used[char] ? (
           <Character key={i}>{char}</Character>
@@ -156,15 +204,16 @@ const TextScan = ({value, scanStyle}) => {
             // otherwise, render it with the "FadedCharacter" styled div
             <FadedCharacter key={i}>{char}</FadedCharacter>
         );
-      })}
+      })} */}
+      {text}
       {/* the jsx below just gives us extra characters in case the length of our random text does not match the length of the intaken text body */}
-      {text.split("").length !== value.length ? (
-        addChars(text.split("").length).map((char, i) => {
+      {/* {text.length !== value.length ? (
+        addChars(text.length).map((char, i) => {
           return <Character key={i}>{char}</Character>;
         })
       ) : (
         <></>
-      )}
+      )} */}
     </div>
   );
 };

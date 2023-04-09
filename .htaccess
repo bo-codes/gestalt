@@ -1,3 +1,1 @@
-AllowOverride FileInfo
 AddType application/wasm .wasm
-

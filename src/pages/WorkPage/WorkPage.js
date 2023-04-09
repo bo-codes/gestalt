@@ -1,10 +1,12 @@
 import IfcModelViewer from '../../Components/IfcViewer/IfcSandbox';
+import SpeckleSandbox from '../../Components/SpeckleSandbox/SpeckleSandbox';
 import './WorkPage.css'
 
 const WorkPage = () => {
   return (
     <div>
-      {/* <div><IfcModelViewer /></div> */}
+      <SpeckleSandbox />
+      <IfcModelViewer />
     </div>
   )
 }

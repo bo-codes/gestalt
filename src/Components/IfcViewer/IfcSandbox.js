@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { IFCLoader } from "web-ifc-three/IFCLoader";
-import exampleFile from "../../images/models/example.ifc"
+import exampleFile from "./example.ifc"
 
 const IfcModelViewer = ({ ifcFile }) => {
   const containerRef = useRef(null);
@@ -44,16 +44,16 @@ const IfcModelViewer = ({ ifcFile }) => {
 
     containerRef.current.appendChild(renderer.domElement);
 
-    if (file) {
+    if (exampleFile) {
       const ifcLoader = new IFCLoader();
-      // ifcLoader.ifcManager.setWasmPath("./wasm/");
-      // var ifcURL = URL.createObjectURL(file);
+      // ifcLoader.ifcManager.setWasmPath("src/Components/IfcViewer/wasm");
+      // var ifcURL = URL.createObjectURL(exampleFile);
       // console.log(ifcURL)
       // console.log(ifcLoader.load)
       ifcLoader.load(exampleFile, (model) => {
         scene.add(model);
         renderer.render(scene, camera);
-      });
+      }, () => console.log('loading model'), (err) => console.log(err));
     }
 
     const animate = () => {
