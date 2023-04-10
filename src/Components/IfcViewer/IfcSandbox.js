@@ -64,7 +64,7 @@ const IfcModelViewer = ({ ifcFile }) => {
     animate();
 
     return () => {
-      containerRef.current.removeChild(renderer.domElement);
+      // containerRef.current.removeChild(renderer.domElement);
     };
   }, [file]);
 

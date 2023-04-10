@@ -1,25 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
-import animation from '../../images/animations/dancing_skel.json'
+import React, { useRef, useEffect } from "react";
 import lottie from "lottie-web";
 
-function ScrollAnimation() {
-  const [scrollY, setScrollY] = useState(0);
-  const animationContainer = useRef(null);
-  const anim = useRef(null);
+function AnimationScroll() {
+  const animationRef = useRef(null);
 
   useEffect(() => {
-    anim.current = lottie.loadAnimation({
-      container: animationContainer.current,
+    const anim = lottie.loadAnimation({
+      container: animationRef.current,
       renderer: "svg",
-      loop: true,
+      loop: false,
       autoplay: false,
-      path: "https://assets6.lottiefiles.com/packages/lf20_owg7kezi.json", // Change to your animation file path
+      path: "https://assets5.lottiefiles.com/packages/lf20_owg7kezi.json", // Change to your animation file path
     });
-  }, []);
 
-  useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.pageYOffset);
+      const { top } = animationRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      if (top < windowHeight) {
+        anim.play();
+      } else {
+        anim.pause();
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -29,13 +31,7 @@ function ScrollAnimation() {
     };
   }, []);
 
-  useEffect(() => {
-    if (anim.current) {
-      anim.current.goToAndStop(scrollY / 5, true);
-    }
-  }, [scrollY]);
-
-  return <div ref={animationContainer}></div>;
+  return <div ref={animationRef}></div>;
 }
 
-export default ScrollAnimation;
+export default AnimationScroll;

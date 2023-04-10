@@ -3,14 +3,11 @@ import aboutImg from "../../images/about.jpg";
 import loadingImg from "../../images/gestalt.gif";
 import TextScan from "../../Components/TextScan/TextScan"
 import React, { useState } from "react";
-// import { generateText } from "../../../utils/randomAboutGen";
-
-// const estevanText = generateText("estevan", 52);
 
 const AboutPage = () => {
 
   const alph =
-    "estevan is a vdc man who does vdc and other cool things. he likes doing vdc as well as vdc and not only likes it, but is good at it. he enjoys sleeping in the sink with his feet in the freezer. he also is fantastic at other things like dancing and eating ramen. Thats about everything that I know about estevan I think.";
+    "Estevan is a vdc man who does vdc and other cool things. he likes doing vdc as well as vdc and not only likes it, but is good at it. He enjoys sleeping in the sink with his feet in the freezer. He also is fantastic at other things like dancing and eating ramen. Thats about everything that I know about estevan I think.";
 
   // keeps track of whether photo loaded/helps us set out 2s delay
   const [loading, setLoading] = useState(true);
@@ -35,16 +32,8 @@ const AboutPage = () => {
         <div id="about-desc">
           <div id="about-name">Estevan</div>
           <div id="about-titles">VDC | BIM | 3D</div>
-          {/* <a
-            id="about-titles"
-            href="https://mail.google.com/mail/?view=cm&fs=1&to=estevan@gestalt3d.com&csu=Work+Inquiry"
-            target="_blank"
-            rel="noreferrer"
-          >
-            estevan@gestalt3d.com
-          </a> */}
           {!loading && (
-            <TextScan value={alph} scanStyle={'alph'}/>
+            <TextScan inText={alph} scanStyle={'alph'} fontSize={'13px'} style={'default'} animationSpeed={5}/>
           )}
 
           <div id="about-text-2">

@@ -9,7 +9,7 @@
   /* font-family: 'Courier New', Courier, monospace; */
   font-weight: 500;
   font-style: normal;
-  font-size: calc(13px + .2vw);
+  font-size: calc(var(--fontSize) + .2vw);
   color: #8e8e8e;
 }
 
