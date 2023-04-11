@@ -1,12 +1,12 @@
+import React, { useEffect, useRef, useState } from "react";
 import "./wasm/web-ifc.wasm";
 import "./wasm/web-ifc-mt.wasm";
-import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { IFCLoader } from "web-ifc-three/IFCLoader";
-import exampleFile from "./example.ifc"
+import exampleFile from "./wasm/example.ifc"
 
-const IfcModelViewer = ({ ifcFile }) => {
+const IfcModelViewer = () => {
   const containerRef = useRef(null);
   const [file, setFile] = useState(null);
 
@@ -16,7 +16,7 @@ const IfcModelViewer = ({ ifcFile }) => {
   };
 
   useEffect(() => {
-    console.log("useeffect start");
+    // console.log("useeffect start");
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -46,7 +46,7 @@ const IfcModelViewer = ({ ifcFile }) => {
 
     if (exampleFile) {
       const ifcLoader = new IFCLoader();
-      // ifcLoader.ifcManager.setWasmPath("src/Components/IfcViewer/wasm");
+      ifcLoader.ifcManager.setWasmPath("../../");
       // var ifcURL = URL.createObjectURL(exampleFile);
       // console.log(ifcURL)
       // console.log(ifcLoader.load)
@@ -73,7 +73,6 @@ const IfcModelViewer = ({ ifcFile }) => {
       <input
         type="file"
         onChange={handleFileChange}
-        onClick={() => console.log("bobo")}
       />
       <div ref={containerRef} style={{ width: "100%", height: "100%" }}>
         Your browser doesn't support WebGL.

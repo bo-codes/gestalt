@@ -6,7 +6,7 @@ const WorkPage = () => {
   return (
     <div>
       <SpeckleSandbox />
-      {/* <IfcModelViewer /> */}
+      <IfcModelViewer />
     </div>
   )
 }
