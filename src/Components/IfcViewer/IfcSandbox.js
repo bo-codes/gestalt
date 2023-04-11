@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./wasm/web-ifc.wasm";
-import "./wasm/web-ifc-mt.wasm";
+// import "./wasm/web-ifc.wasm";
+// import "./wasm/web-ifc-mt.wasm";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { IFCLoader } from "web-ifc-three/IFCLoader";
-import exampleFile from "./wasm/example.ifc"
+import exampleFile from "./wasm/example2.ifc"
 
 const IfcModelViewer = () => {
   const containerRef = useRef(null);
@@ -28,6 +28,11 @@ const IfcModelViewer = () => {
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
 
+    // ------ CREATE AN AMBIENT LIGHT
+    const ambLight = new THREE.AmbientLight();
+    // ------ ADD THE LIGHT TO THE SCENE
+    scene.add(ambLight);
+
     //Creates grids and axes in the scene
     const grid = new THREE.GridHelper(50, 30);
     scene.add(grid);
@@ -50,10 +55,15 @@ const IfcModelViewer = () => {
       // var ifcURL = URL.createObjectURL(exampleFile);
       // console.log(ifcURL)
       // console.log(ifcLoader.load)
-      ifcLoader.load(exampleFile, (model) => {
-        scene.add(model);
-        renderer.render(scene, camera);
-      }, () => console.log('loading model'), (err) => console.log(err));
+      ifcLoader.load(
+        exampleFile,
+        (model) => {
+          scene.add(model);
+          renderer.render(scene, camera);
+        },
+        () => console.log("loading model"),
+        (err) => console.log(err)
+      );
     }
 
     const animate = () => {
@@ -70,12 +80,12 @@ const IfcModelViewer = () => {
 
   return (
     <>
-      <input
+      {/* <input
         type="file"
         onChange={handleFileChange}
-      />
+      /> */}
       <div ref={containerRef} style={{ width: "100%", height: "100%" }}>
-        Your browser doesn't support WebGL.
+        {/* Your browser doesn't support WebGL. */}
       </div>
     </>
   );
