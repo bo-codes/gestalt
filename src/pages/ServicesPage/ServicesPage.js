@@ -40,7 +40,7 @@ const ServicesPage = () => {
       <div id="services">
         {services.map((service, i) => {
             return i % 2 === 0 ? (
-              <div className="service">
+              <div className="service" key={i}>
                 <div className="service-text-body">
                   <div className="service-name">{service.name}</div>
                   <div className="service-desc">
@@ -53,7 +53,7 @@ const ServicesPage = () => {
                 ></div>
               </div>
             ) : (
-              <div className="service">
+              <div className="service" key={i}>
                 <div
                   className="service-img"
                   style={{ backgroundImage: `url(${service.img})` }}

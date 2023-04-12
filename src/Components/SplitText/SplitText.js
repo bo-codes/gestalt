@@ -27,11 +27,9 @@ const SplitText = ({text}) => {
 
   return (
     <div id="formatted-txt">
-      {formatText(text, 3).map((section) => {
-        console.log(text.length)
-        console.log(section)
+      {formatText(text, 3).map((section, i) => {
         return (
-          <div className="formatted-txt-section">
+          <div className="formatted-txt-section" key={i}>
             {section}
           </div>
         )

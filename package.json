@@ -12,6 +12,7 @@
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.9",
     "three": "^0.151.3",
+    "three-mesh-bvh": "^0.5.23",
     "web-ifc-viewer": "^1.0.214",
     "web-vitals": "^2.1.4"
   },

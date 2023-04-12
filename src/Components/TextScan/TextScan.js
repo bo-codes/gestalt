@@ -15,6 +15,30 @@ import "./TextScan.css";
 // WE ADD LETTERS FROM OUR TEXT BODY TO IT
 let used = {};
 
+// BUILT-IN STYLE FOR EACH CHARACTER
+const Character = styled.div`
+  width: 12px;
+  display: flex;
+  justify-content: center;
+`;
+
+// BUILT-IN STYLE FOR FADED CHARACTER
+const FadedCharacter = styled(Character)`
+  opacity: 36%;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  line-height: 1.4;
+  font-family: "omnes-georgian", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  color: #8e8e8e;
+`;
+
 const TextScan = ({ inText, scanStyle, fontSize, style, animationSpeed }) => {
 
   let intervals = !animationSpeed
@@ -44,31 +68,7 @@ const TextScan = ({ inText, scanStyle, fontSize, style, animationSpeed }) => {
   ? 4 : 4
 
 
-  // BUILT-IN STYLE FOR EACH CHARACTER
-  const Character = styled.div`
-    width: 12px;
-    display: flex;
-    justify-content: center;
-  `;
 
-  // BUILT-IN STYLE FOR FADED CHARACTER
-  const FadedCharacter = styled(Character)`
-    opacity: 36%;
-  `;
-
-  const TextContainer = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    margin-top: 30px;
-    line-height: 1.4;
-    font-family: "omnes-georgian", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-    font-size: calc(${fontSize} + 0.2vw);
-    color: #8e8e8e;
-  `;
-  
   // in-order text split into indiv characters
   let letters = inText.split("");
 
@@ -202,8 +202,10 @@ const TextScan = ({ inText, scanStyle, fontSize, style, animationSpeed }) => {
   // outcome of this should be [[w,o,r,d],[w,o,r,d],[w,o,r,d]]
 
 
-  return (!style || style === 'default') ? (
-    <TextContainer>{text}</TextContainer>
+  return !style || style === "default" ? (
+    <TextContainer style={{ fontSize: `calc(${fontSize} + 0.2vw)` }}>
+      {text}
+    </TextContainer>
   ) : (
     <div style={style}>{text}</div>
   );

@@ -1,10 +1,11 @@
-import IfcModelViewer from '../../Components/IfcViewer/IfcSandbox';
+import IfcModelViewer from '../../Components/IFCModelViewer/IFCModelViewer';
+import exampleFile from "./example2.ifc"
 import './WorkPage.css'
 
 const WorkPage = () => {
   return (
     <div>
-      <IfcModelViewer />
+      <IfcModelViewer ifcFile={exampleFile} />
     </div>
   )
 }
