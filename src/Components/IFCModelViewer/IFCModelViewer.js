@@ -16,12 +16,25 @@ import {
 // IMPORTS FOR SUBSETS
 import { MeshLambertMaterial } from "three";
 
+// IMPORTS FOR HIDING
+// import {
+//   IFCWALLSTANDARDCASE,
+//   IFCSLAB,
+//   IFCDOOR,
+//   IFCWINDOW,
+//   IFCFURNISHINGELEMENT,
+//   IFCMEMBER,
+//   IFCPLATE,
+// } from "web-ifc";
+
 // MISC IMPORTS
+// import { uniqueTypes } from "./ifcdata";
 import styled from "styled-components";
 
 const Progress = styled.div`
   display: flex;
 `;
+
 
 const IFCModelViewer = ({ ifcFile }) => {
   // STATE THAT HOLDS PROGRESS TO DISPLAY
@@ -91,9 +104,25 @@ const IFCModelViewer = ({ ifcFile }) => {
       // START THE LOADING PROCESS
       ifcLoader.load(
         ifcFile,
-        (model) => {
+        async(model) => {
+          // model.getObjectsByProperty()
+          // const typesArr = model.ifcManager.state.models[0].types
+          // console.log((typesArr))
+          // const uniqueTypes = (arr) => {
+          //   const unique = [];
+          //   const values = Object.values(arr);
+          //   for (let i = 0; i < values.length; i++) {
+          //     if (!unique.includes(values[i])) {
+          //       unique.push(values[i]);
+          //     }
+          //   }
+          //   return unique
+          // }
+          // const arr = uniqueTypes(typesArr);
+          // console.log(arr)
+          scene.add(model)
           ifcModels.push(model);
-          scene.add(model);
+          // await setupAllCategories()
           renderer.render(scene, camera);
           setModelLoaded(true);
         },
@@ -197,6 +226,64 @@ const IFCModelViewer = ({ ifcFile }) => {
     window.ondblclick = (event) => highlight(event, selectMat, selectModel);
     // ------------------ CREATING SUBSET FUNCTION ------------------^^
 
+    // // ------------------ CREATING HIDING FUNCTION ------------------vv
+
+    // // List of categories names
+    // const categories = {
+    //   IFCWALLSTANDARDCASE,
+    //   IFCSLAB,
+    //   IFCFURNISHINGELEMENT,
+    //   IFCDOOR,
+    //   IFCWINDOW,
+    //   IFCPLATE,
+    //   IFCMEMBER,
+    // };
+
+    // // Gets the IDs of all the items of a specific category
+    // async function getAll(category) {
+    //   return await ifcLoader.ifcManager.getAllItemsOfType(0, category, false);
+    // }
+
+    // // Creates a new subset containing all elements of a category
+    // async function newSubsetOfType(category) {
+    //   const ids = await getAll(category);
+    //   return ifcLoader.ifcManager.createSubset({
+    //     modelID: 0,
+    //     scene,
+    //     ids,
+    //     removePrevious: true,
+    //     customID: category.toString(),
+    //   });
+    // }
+
+    // // Stores the created subsets
+    // const subsets = {};
+
+    // async function setupAllCategories() {
+    //   const allCategories = Object.values(categories);
+    //   for (let i = 0; i < allCategories.length; i++) {
+    //     const category = allCategories[i];
+    //     await setupCategory(category);
+    //   }
+    // }
+
+    // // Creates a new subset and configures the checkbox
+    // async function setupCategory(category) {
+    //   subsets[category] = await newSubsetOfType(category);
+    //   setupCheckBox(category);
+    // }
+
+    // // Sets up the checkbox event to hide / show elements
+    // function setupCheckBox(category) {
+    //   const checkBox = document.getElementById(category);
+    //   checkBox.addEventListener("change", (event) => {
+    //     const checked = event.target.checked;
+    //     const subset = subsets[category];
+    //     if (checked) scene.add(subset);
+    //     else subset.removeFromParent();
+    //   });
+    // }
+    // // ------------------ CREATING HIDING FUNCTION ------------------^^
     const animate = () => {
       controls.update();
       requestAnimationFrame(animate);
@@ -219,7 +306,39 @@ const IFCModelViewer = ({ ifcFile }) => {
         </Progress>
       )}
       {progress === 100 && !modelLoaded && <p>Merging Geometry...</p>}
-      <div ref={containerRef} style={{ width: "100%", height: "100%" }}></div>
+      {/* {progress === 100 && (
+        <div className="checkboxes">
+          <div>
+            <input defaultChecked id={IFCWALLSTANDARDCASE} type="checkbox" />
+            Walls
+          </div>
+          <div>
+            <input defaultChecked id={IFCSLAB} type="checkbox" />
+            Slabs
+          </div>
+          <div>
+            <input defaultChecked id={IFCWINDOW} type="checkbox" />
+            Windows
+          </div>
+          <div>
+            <input defaultChecked id={IFCFURNISHINGELEMENT} type="checkbox" />
+            Furniture
+          </div>
+          <div>
+            <input defaultChecked id={IFCDOOR} type="checkbox" />
+            Doors
+          </div>
+          <div>
+            <input defaultChecked id={IFCMEMBER} type="checkbox" />
+            Curtain wall structure
+          </div>
+          <div>
+            <input defaultChecked id={IFCPLATE} type="checkbox" />
+            Curtain wall plates
+          </div>
+        </div>
+      )} */}
+      <div ref={containerRef} style={{ width: "100%", height: "100%", visibility: !modelLoaded ? 'none' : 'block' }}></div>
     </>
   );
 };

@@ -33,7 +33,7 @@ const AboutPage = () => {
           <div id="about-name">Estevan</div>
           <div id="about-titles">VDC | BIM | 3D</div>
           {!loading && (
-            <TextScan inText={alph} scanStyle={'alph'} fontSize={'13px'} style={'default'} animationSpeed={3}/>
+            <TextScan inText={alph} scanStyle={'alph'} fontSize={'13px'} style={'default'} animationSpeed={4}/>
           )}
 
           <div id="about-text-2">
