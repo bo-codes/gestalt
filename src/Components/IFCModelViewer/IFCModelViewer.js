@@ -17,15 +17,15 @@ import {
 import { MeshLambertMaterial } from "three";
 
 // IMPORTS FOR HIDING
-// import {
-//   IFCWALLSTANDARDCASE,
-//   IFCSLAB,
-//   IFCDOOR,
-//   IFCWINDOW,
-//   IFCFURNISHINGELEMENT,
-//   IFCMEMBER,
-//   IFCPLATE,
-// } from "web-ifc";
+import {
+  IFCWALLSTANDARDCASE,
+  IFCWALL,
+  IFCSLAB,
+  IFCFLOWSEGMENT,
+  IFCBUILDINGELEMENTPROXY,
+  IFCROOF,
+  IFCBEAM
+} from "web-ifc";
 
 // MISC IMPORTS
 // import { uniqueTypes } from "./ifcdata";
@@ -40,19 +40,11 @@ const IFCModelViewer = ({ ifcFile }) => {
   // STATE THAT HOLDS PROGRESS TO DISPLAY
   const [progress, setProgress] = useState(0);
   const [modelLoaded, setModelLoaded] = useState(false);
-  const [currentExpressID, setCurrentExpressID] = useState();
+  const [modelTypes, setModelTypes] = useState(false);
   const [currentModel, setCurrentModel] = useState()
 
   // REF TO DOM ELEMENT WHERE WE WILL RENDER
   const containerRef = useRef(null);
-
-  // const ifcLoader = new IFCLoader();
-  // useEffect(() => {
-  //   if (currentExpressID) {
-  //     const modelID = currentModel.ifcManager.state.models[0].modelID
-  //     console.log(ifcLoader.ifcManager.getTypeProperties(modelID, currentExpressID))
-  //   }
-  // }, [currentExpressID])
 
   // ON EACH RENDER
   useEffect(() => {
@@ -117,23 +109,32 @@ const IFCModelViewer = ({ ifcFile }) => {
         async(model) => {
           // model.getObjectsByProperty()
           setCurrentModel(model)
-          const typesArr = model.ifcManager.state.models
+          // const typesArr = model.ifcManager.state.models
 
-          // const uniqueTypes = (arr) => {
-          //   const unique = [];
-          //   const values = Object.values(arr);
-          //   for (let i = 0; i < values.length; i++) {
-          //     if (!unique.includes(values[i])) {
-          //       unique.push(values[i]);
-          //     }
-          //   }
-          //   return unique
-          // }
-          // const arr = uniqueTypes(typesArr);
-          // console.log(arr)
-          scene.add(model)
+          const tree = await ifcLoader.ifcManager.getSpatialStructure(0)
+          const floors = tree.children[0].children[0].children;
+
+          const calcUniqueTypes = (arr) => {
+            const unique = [];
+            for (let j = 0; j < arr.length; j++) {
+              let currFloor = arr[j]
+
+              const values = Object.values(currFloor);
+              console.log(values, 'values')
+              for (let i = 0; i < values.length; i++) {
+                let currType = values[2][i]
+                // console.log(currType)
+                if (currType && !unique.includes(currType.type)) {
+                  unique.push(currType.type);
+                }
+              }
+            }
+            return unique
+          }
+          const uniqueTypes = calcUniqueTypes(floors);
+          // scene.add(model)
           ifcModels.push(model);
-          // await setupAllCategories()
+          await setupAllCategories(uniqueTypes)
           renderer.render(scene, camera);
           setModelLoaded(true);
         },
@@ -170,15 +171,16 @@ const IFCModelViewer = ({ ifcFile }) => {
       return raycaster.intersectObjects(ifcModels);
     }
 
-    function pick(event) {
+    async function pick(event) {
       const found = cast(event)[0];
       if (found) {
         const index = found.faceIndex;
         const geometry = found.object.geometry;
         const ifc = ifcLoader.ifcManager;
         const id = ifc.getExpressId(geometry, index);
-        setCurrentExpressID(id);
-        console.log(ifcLoader.ifcManager.state)
+        const modelID = found.object.modelID;
+        const props = await ifc.getItemProperties(modelID, id);
+        console.log(JSON.stringify(props, null, 2));
       }
     }
 
@@ -240,61 +242,64 @@ const IFCModelViewer = ({ ifcFile }) => {
 
     // // ------------------ CREATING HIDING FUNCTION ------------------vv
 
-    // // List of categories names
-    // const categories = {
-    //   IFCWALLSTANDARDCASE,
-    //   IFCSLAB,
-    //   IFCFURNISHINGELEMENT,
-    //   IFCDOOR,
-    //   IFCWINDOW,
-    //   IFCPLATE,
-    //   IFCMEMBER,
-    // };
+    // List of categories names
+    const categories = {
+      IFCWALLSTANDARDCASE,
+      IFCWALL,
+      IFCSLAB,
+      IFCFLOWSEGMENT,
+      IFCBUILDINGELEMENTPROXY,
+      IFCROOF,
+      IFCBEAM,
+    };
 
-    // // Gets the IDs of all the items of a specific category
-    // async function getAll(category) {
-    //   return await ifcLoader.ifcManager.getAllItemsOfType(0, category, false);
-    // }
+    // Gets the IDs of all the items of a specific category
+    async function getAll(category) {
+      return await ifcLoader.ifcManager.getAllItemsOfType(0, category, false);
+    }
 
-    // // Creates a new subset containing all elements of a category
-    // async function newSubsetOfType(category) {
-    //   const ids = await getAll(category);
-    //   return ifcLoader.ifcManager.createSubset({
-    //     modelID: 0,
-    //     scene,
-    //     ids,
-    //     removePrevious: true,
-    //     customID: category.toString(),
-    //   });
-    // }
+    // Creates a new subset containing all elements of a category
+    async function newSubsetOfType(category) {
+      const ids = await getAll(category);
+      // console.log(ids, 'ids')
+      return ifcLoader.ifcManager.createSubset({
+        modelID: 0,
+        scene,
+        ids,
+        removePrevious: true,
+        customID: category.toString(),
+      });
+    }
 
-    // // Stores the created subsets
-    // const subsets = {};
+    // Stores the created subsets
+    const subsets = {};
 
-    // async function setupAllCategories() {
-    //   const allCategories = Object.values(categories);
-    //   for (let i = 0; i < allCategories.length; i++) {
-    //     const category = allCategories[i];
-    //     await setupCategory(category);
-    //   }
-    // }
+    async function setupAllCategories() {
+      const allCategories = Object.values(categories);
+      for (let i = 0; i < allCategories.length; i++) {
+        const category = allCategories[i];
+        console.log(category, 'categories')
+        await setupCategory(category);
+      }
+    }
 
-    // // Creates a new subset and configures the checkbox
-    // async function setupCategory(category) {
-    //   subsets[category] = await newSubsetOfType(category);
-    //   setupCheckBox(category);
-    // }
+    // Creates a new subset and configures the checkbox
+    async function setupCategory(category) {
+      subsets[category] = await newSubsetOfType(category);
+      console.log(subsets)
+      setupCheckBox(category);
+    }
 
-    // // Sets up the checkbox event to hide / show elements
-    // function setupCheckBox(category) {
-    //   const checkBox = document.getElementById(category);
-    //   checkBox.addEventListener("change", (event) => {
-    //     const checked = event.target.checked;
-    //     const subset = subsets[category];
-    //     if (checked) scene.add(subset);
-    //     else subset.removeFromParent();
-    //   });
-    // }
+    // Sets up the checkbox event to hide / show elements
+    function setupCheckBox(category) {
+      const checkBox = document.getElementById(category);
+      checkBox.addEventListener("change", (event) => {
+        const checked = event.target.checked;
+        const subset = subsets[category];
+        if (checked) scene.add(subset);
+        else subset.removeFromParent();
+      });
+    }
     // // ------------------ CREATING HIDING FUNCTION ------------------^^
     const animate = () => {
       controls.update();
@@ -318,10 +323,14 @@ const IFCModelViewer = ({ ifcFile }) => {
         </Progress>
       )}
       {progress === 100 && !modelLoaded && <p>Merging Geometry...</p>}
-      {/* {progress === 100 && (
+      {progress === 100 && (
         <div className="checkboxes">
           <div>
             <input defaultChecked id={IFCWALLSTANDARDCASE} type="checkbox" />
+            Walls
+          </div>
+          <div>
+            <input defaultChecked id={IFCWALL} type="checkbox" />
             Walls
           </div>
           <div>
@@ -329,28 +338,39 @@ const IFCModelViewer = ({ ifcFile }) => {
             Slabs
           </div>
           <div>
-            <input defaultChecked id={IFCWINDOW} type="checkbox" />
+            <input defaultChecked id={IFCFLOWSEGMENT} type="checkbox" />
             Windows
           </div>
           <div>
-            <input defaultChecked id={IFCFURNISHINGELEMENT} type="checkbox" />
+            <input
+              defaultChecked
+              id={IFCBUILDINGELEMENTPROXY}
+              type="checkbox"
+            />
             Furniture
           </div>
           <div>
-            <input defaultChecked id={IFCDOOR} type="checkbox" />
+            <input defaultChecked id={IFCROOF} type="checkbox" />
             Doors
           </div>
           <div>
-            <input defaultChecked id={IFCMEMBER} type="checkbox" />
+            <input defaultChecked id={IFCBEAM} type="checkbox" />
             Curtain wall structure
           </div>
-          <div>
+          {/* <div>
             <input defaultChecked id={IFCPLATE} type="checkbox" />
             Curtain wall plates
-          </div>
+          </div> */}
         </div>
-      )} */}
-      <div ref={containerRef} style={{ width: "100%", height: "100%", visibility: !modelLoaded ? 'none' : 'block' }}></div>
+      )}
+      <div
+        ref={containerRef}
+        style={{
+          width: "100%",
+          height: "100%",
+          visibility: !modelLoaded ? "none" : "block",
+        }}
+      ></div>
     </>
   );
 };
