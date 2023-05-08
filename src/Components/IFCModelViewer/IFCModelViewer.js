@@ -40,9 +40,19 @@ const IFCModelViewer = ({ ifcFile }) => {
   // STATE THAT HOLDS PROGRESS TO DISPLAY
   const [progress, setProgress] = useState(0);
   const [modelLoaded, setModelLoaded] = useState(false);
+  const [currentExpressID, setCurrentExpressID] = useState();
+  const [currentModel, setCurrentModel] = useState()
 
   // REF TO DOM ELEMENT WHERE WE WILL RENDER
   const containerRef = useRef(null);
+
+  // const ifcLoader = new IFCLoader();
+  // useEffect(() => {
+  //   if (currentExpressID) {
+  //     const modelID = currentModel.ifcManager.state.models[0].modelID
+  //     console.log(ifcLoader.ifcManager.getTypeProperties(modelID, currentExpressID))
+  //   }
+  // }, [currentExpressID])
 
   // ON EACH RENDER
   useEffect(() => {
@@ -106,8 +116,9 @@ const IFCModelViewer = ({ ifcFile }) => {
         ifcFile,
         async(model) => {
           // model.getObjectsByProperty()
-          // const typesArr = model.ifcManager.state.models[0].types
-          // console.log((typesArr))
+          setCurrentModel(model)
+          const typesArr = model.ifcManager.state.models
+
           // const uniqueTypes = (arr) => {
           //   const unique = [];
           //   const values = Object.values(arr);
@@ -166,7 +177,8 @@ const IFCModelViewer = ({ ifcFile }) => {
         const geometry = found.object.geometry;
         const ifc = ifcLoader.ifcManager;
         const id = ifc.getExpressId(geometry, index);
-        console.log(id);
+        setCurrentExpressID(id);
+        console.log(ifcLoader.ifcManager.state)
       }
     }
 
