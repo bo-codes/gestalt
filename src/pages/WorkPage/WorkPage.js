@@ -1,5 +1,5 @@
 import IfcModelViewer from '../../Components/IFCModelViewer/IFCModelViewer';
-import exampleFile from "./MOB_IFC_2.ifc";
+import exampleFile from "./MOB_UPDATED_IFC.ifc";
 import './WorkPage.css'
 
 const WorkPage = () => {

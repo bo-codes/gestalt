@@ -1,7 +1,8 @@
 import "./AboutPage.css";
 import aboutImg from "../../images/about.jpg";
 import loadingImg from "../../images/gestalt.gif";
-import TextScan from "../../Components/TextScan/TextScan"
+// import TextScan from "../../Components/TextScan/TextScan"
+import TextScan from 'text-scan'
 import React, { useState } from "react";
 
 const AboutPage = () => {
@@ -33,7 +34,7 @@ const AboutPage = () => {
           <div id="about-name">Estevan</div>
           <div id="about-titles">VDC | BIM | 3D</div>
           {!loading && (
-            <TextScan inText={alph} scanStyle={'alph'} fontSize={'13px'} style={'default'} animationSpeed={4}/>
+            <TextScan inText={alph} scanStyle={'alph'} fontSize={'15px'} style={'default'} animationSpeed={5}/>
           )}
 
           <div id="about-text-2">

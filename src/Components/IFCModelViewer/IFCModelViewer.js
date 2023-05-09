@@ -24,7 +24,7 @@ import {
   IFCFLOWSEGMENT,
   IFCBUILDINGELEMENTPROXY,
   IFCROOF,
-  IFCBEAM
+  IFCBEAM,
 } from "web-ifc";
 
 // MISC IMPORTS
@@ -35,13 +35,12 @@ const Progress = styled.div`
   display: flex;
 `;
 
-
 const IFCModelViewer = ({ ifcFile }) => {
   // STATE THAT HOLDS PROGRESS TO DISPLAY
   const [progress, setProgress] = useState(0);
   const [modelLoaded, setModelLoaded] = useState(false);
   const [modelTypes, setModelTypes] = useState(false);
-  const [currentModel, setCurrentModel] = useState()
+  const [currentModel, setCurrentModel] = useState();
 
   // REF TO DOM ELEMENT WHERE WE WILL RENDER
   const containerRef = useRef(null);
@@ -58,9 +57,9 @@ const IFCModelViewer = ({ ifcFile }) => {
       75,
       window.innerWidth / window.innerHeight
     );
-    camera.position.z = 15;
-    camera.position.y = 13;
-    camera.position.x = 8;
+    camera.position.z = 65;
+    camera.position.y = 20;
+    camera.position.x = -48;
 
     // SET RENDERER UP
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -101,40 +100,43 @@ const IFCModelViewer = ({ ifcFile }) => {
 
     const ifcModels = [];
 
+    // console.log(ifcLoader.ifcManager)
+
     // IF WE HAVE A VALID IFC FILE
     if (ifcFile) {
       // START THE LOADING PROCESS
       ifcLoader.load(
         ifcFile,
-        async(model) => {
+        async (model) => {
           // model.getObjectsByProperty()
-          setCurrentModel(model)
+          // model.position.set(0,0,-20)
+          setCurrentModel(model);
           // const typesArr = model.ifcManager.state.models
 
-          const tree = await ifcLoader.ifcManager.getSpatialStructure(0)
+          const tree = await ifcLoader.ifcManager.getSpatialStructure(0);
           const floors = tree.children[0].children[0].children;
 
           const calcUniqueTypes = (arr) => {
             const unique = [];
             for (let j = 0; j < arr.length; j++) {
-              let currFloor = arr[j]
+              let currFloor = arr[j];
 
               const values = Object.values(currFloor);
-              console.log(values, 'values')
+              // console.log(values, 'values')
               for (let i = 0; i < values.length; i++) {
-                let currType = values[2][i]
+                let currType = values[2][i];
                 // console.log(currType)
                 if (currType && !unique.includes(currType.type)) {
                   unique.push(currType.type);
                 }
               }
             }
-            return unique
-          }
+            return unique;
+          };
           const uniqueTypes = calcUniqueTypes(floors);
           // scene.add(model)
           ifcModels.push(model);
-          await setupAllCategories(uniqueTypes)
+          await setupAllCategories(uniqueTypes);
           renderer.render(scene, camera);
           setModelLoaded(true);
         },
@@ -247,7 +249,6 @@ const IFCModelViewer = ({ ifcFile }) => {
       IFCWALLSTANDARDCASE,
       IFCWALL,
       IFCSLAB,
-      IFCFLOWSEGMENT,
       IFCBUILDINGELEMENTPROXY,
       IFCROOF,
       IFCBEAM,
@@ -278,7 +279,6 @@ const IFCModelViewer = ({ ifcFile }) => {
       const allCategories = Object.values(categories);
       for (let i = 0; i < allCategories.length; i++) {
         const category = allCategories[i];
-        console.log(category, 'categories')
         await setupCategory(category);
       }
     }
@@ -286,13 +286,12 @@ const IFCModelViewer = ({ ifcFile }) => {
     // Creates a new subset and configures the checkbox
     async function setupCategory(category) {
       subsets[category] = await newSubsetOfType(category);
-      console.log(subsets)
       setupCheckBox(category);
     }
 
     // Sets up the checkbox event to hide / show elements
     function setupCheckBox(category) {
-      const checkBox = document.getElementById(category);
+      const checkBox = document.getElementsByClassName(category)[0];
       checkBox.addEventListener("change", (event) => {
         const checked = event.target.checked;
         const subset = subsets[category];
@@ -326,36 +325,36 @@ const IFCModelViewer = ({ ifcFile }) => {
       {progress === 100 && (
         <div className="checkboxes">
           <div>
-            <input defaultChecked id={IFCWALLSTANDARDCASE} type="checkbox" />
+            <input
+              defaultChecked
+              className={IFCWALLSTANDARDCASE + " " + IFCWALL}
+              type="checkbox"
+            />
             Walls
           </div>
-          <div>
-            <input defaultChecked id={IFCWALL} type="checkbox" />
+          {/* <div>
+            <input defaultChecked className={IFCWALL} type="checkbox" />
             Walls
-          </div>
+          </div> */}
           <div>
-            <input defaultChecked id={IFCSLAB} type="checkbox" />
+            <input defaultChecked className={IFCSLAB} type="checkbox" />
             Slabs
           </div>
           <div>
-            <input defaultChecked id={IFCFLOWSEGMENT} type="checkbox" />
-            Windows
+            <input defaultChecked className={IFCROOF} type="checkbox" />
+            Roofs
+          </div>
+          <div>
+            <input defaultChecked className={IFCBEAM} type="checkbox" />
+            Beams
           </div>
           <div>
             <input
               defaultChecked
-              id={IFCBUILDINGELEMENTPROXY}
+              className={IFCBUILDINGELEMENTPROXY}
               type="checkbox"
             />
-            Furniture
-          </div>
-          <div>
-            <input defaultChecked id={IFCROOF} type="checkbox" />
-            Doors
-          </div>
-          <div>
-            <input defaultChecked id={IFCBEAM} type="checkbox" />
-            Curtain wall structure
+            MISC
           </div>
           {/* <div>
             <input defaultChecked id={IFCPLATE} type="checkbox" />
