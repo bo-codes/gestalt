@@ -146,15 +146,14 @@ const IFCModelViewer = ({ ifcFile }) => {
                 let currType = values[i];
                 // console.log(currType)
                 if (currType && !unique.includes(currType.type)) {
-                  unique.push(currType.type);
+                  unique.push([currType.type, organizedTypes[currType.type]]);
                 }
               }
             }
             return unique;
           };
           const uniqueTypes = calcUniqueTypes(floors);
-          // ifcModels.push(model);
-          console.log(uniqueTypes)
+          // console.log(uniqueTypes)
           await setupAllCategories(uniqueTypes);
           renderer.render(scene, camera);
           setModelLoaded(true);
@@ -301,7 +300,7 @@ const IFCModelViewer = ({ ifcFile }) => {
     // Stores the created subsets
     const subsets = {};
 
-    async function setupAllCategories() {
+    async function setupAllCategories(categories) {
       const allCategories = categories;
       // console.log(allCategories)
       for (let i = 0; i < allCategories.length; i++) {
@@ -353,7 +352,7 @@ const IFCModelViewer = ({ ifcFile }) => {
         <div className="checkboxes">
           {categories.map((category, i) => {
             return (
-              <div>
+              <div key={i}>
                 <input
                   defaultChecked
                   className={category[1]}
