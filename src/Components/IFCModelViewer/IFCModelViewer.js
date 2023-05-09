@@ -21,11 +21,19 @@ import {
   IFCWALLSTANDARDCASE,
   IFCWALL,
   IFCSLAB,
-  IFCFLOWSEGMENT,
   IFCBUILDINGELEMENTPROXY,
   IFCROOF,
+  IFCMEMBER,
   IFCBEAM,
+  IFCPLATE,
+  IFCRAILING,
+  IFCDOOR,
+  IFCCOLUMN,
+  IFCSTAIRFLIGHT,
+  IFCFURNISHINGELEMENT,
 } from "web-ifc";
+
+import organizedTypes from "./IFCTypes";
 
 // MISC IMPORTS
 // import { uniqueTypes } from "./ifcdata";
@@ -44,6 +52,22 @@ const IFCModelViewer = ({ ifcFile }) => {
 
   // REF TO DOM ELEMENT WHERE WE WILL RENDER
   const containerRef = useRef(null);
+
+  const categories = [
+    ["IFCWALLSTANDARDCASE",IFCWALLSTANDARDCASE],
+    ["IFCWALL",IFCWALL],
+    ["IFCSLAB",IFCSLAB],
+    ["IFCBUILDINGELEMENTPROXY",IFCBUILDINGELEMENTPROXY],
+    ["IFCROOF",IFCROOF],
+    ["IFCMEMBER",IFCMEMBER],
+    ["IFCBEAM",IFCBEAM],
+    ["IFCRAILING",IFCRAILING],
+    ["IFCDOOR",IFCDOOR],
+    ["IFCCOLUMN",IFCCOLUMN],
+    ["IFCSTAIRFLIGHT",IFCSTAIRFLIGHT],
+    ["IFCPLATE",IFCPLATE],
+    ["IFCFURNISHINGELEMENT",IFCFURNISHINGELEMENT],
+  ];
 
   // ON EACH RENDER
   useEffect(() => {
@@ -100,18 +124,13 @@ const IFCModelViewer = ({ ifcFile }) => {
 
     const ifcModels = [];
 
-    // console.log(ifcLoader.ifcManager)
-
     // IF WE HAVE A VALID IFC FILE
     if (ifcFile) {
       // START THE LOADING PROCESS
       ifcLoader.load(
         ifcFile,
         async (model) => {
-          // model.getObjectsByProperty()
-          // model.position.set(0,0,-20)
           setCurrentModel(model);
-          // const typesArr = model.ifcManager.state.models
 
           const tree = await ifcLoader.ifcManager.getSpatialStructure(0);
           const floors = tree.children[0].children[0].children;
@@ -121,10 +140,10 @@ const IFCModelViewer = ({ ifcFile }) => {
             for (let j = 0; j < arr.length; j++) {
               let currFloor = arr[j];
 
-              const values = Object.values(currFloor);
-              // console.log(values, 'values')
+              // console.log(currFloor, 'values')
+              const values = Object.values(currFloor.children);
               for (let i = 0; i < values.length; i++) {
-                let currType = values[2][i];
+                let currType = values[i];
                 // console.log(currType)
                 if (currType && !unique.includes(currType.type)) {
                   unique.push(currType.type);
@@ -134,8 +153,8 @@ const IFCModelViewer = ({ ifcFile }) => {
             return unique;
           };
           const uniqueTypes = calcUniqueTypes(floors);
-          // scene.add(model)
-          ifcModels.push(model);
+          // ifcModels.push(model);
+          console.log(uniqueTypes)
           await setupAllCategories(uniqueTypes);
           renderer.render(scene, camera);
           setModelLoaded(true);
@@ -245,13 +264,20 @@ const IFCModelViewer = ({ ifcFile }) => {
     // // ------------------ CREATING HIDING FUNCTION ------------------vv
 
     // List of categories names
-    const categories = {
+    const categories2 = {
       IFCWALLSTANDARDCASE,
       IFCWALL,
       IFCSLAB,
       IFCBUILDINGELEMENTPROXY,
       IFCROOF,
+      IFCMEMBER,
       IFCBEAM,
+      IFCRAILING,
+      IFCDOOR,
+      IFCCOLUMN,
+      IFCSTAIRFLIGHT,
+      IFCPLATE,
+      IFCFURNISHINGELEMENT,
     };
 
     // Gets the IDs of all the items of a specific category
@@ -276,10 +302,11 @@ const IFCModelViewer = ({ ifcFile }) => {
     const subsets = {};
 
     async function setupAllCategories() {
-      const allCategories = Object.values(categories);
+      const allCategories = categories;
+      // console.log(allCategories)
       for (let i = 0; i < allCategories.length; i++) {
-        const category = allCategories[i];
-        await setupCategory(category);
+        const currCategory = allCategories[i][1];
+        await setupCategory(currCategory);
       }
     }
 
@@ -324,7 +351,19 @@ const IFCModelViewer = ({ ifcFile }) => {
       {progress === 100 && !modelLoaded && <p>Merging Geometry...</p>}
       {progress === 100 && (
         <div className="checkboxes">
-          <div>
+          {categories.map((category, i) => {
+            return (
+              <div>
+                <input
+                  defaultChecked
+                  className={category[1]}
+                  type="checkbox"
+                />
+                {category[0]}
+              </div>
+            );
+          })}
+          {/* <div>
             <input
               defaultChecked
               className={IFCWALLSTANDARDCASE + " " + IFCWALL}
@@ -332,10 +371,6 @@ const IFCModelViewer = ({ ifcFile }) => {
             />
             Walls
           </div>
-          {/* <div>
-            <input defaultChecked className={IFCWALL} type="checkbox" />
-            Walls
-          </div> */}
           <div>
             <input defaultChecked className={IFCSLAB} type="checkbox" />
             Slabs
@@ -349,6 +384,14 @@ const IFCModelViewer = ({ ifcFile }) => {
             Beams
           </div>
           <div>
+            <input defaultChecked className={IFCCOLUMN} type="checkbox" />
+            Columns
+          </div>
+          <div>
+            <input defaultChecked className={IFCMEMBER} type="checkbox" />
+            Member
+          </div>
+          <div>
             <input
               defaultChecked
               className={IFCBUILDINGELEMENTPROXY}
@@ -356,9 +399,25 @@ const IFCModelViewer = ({ ifcFile }) => {
             />
             MISC
           </div>
-          {/* <div>
-            <input defaultChecked id={IFCPLATE} type="checkbox" />
-            Curtain wall plates
+          <div>
+            <input defaultChecked className={IFCDOOR} type="checkbox" />
+            Doors
+          </div>
+          <div>
+            <input defaultChecked className={IFCSTAIRFLIGHT} type="checkbox" />
+            Stairs
+          </div>
+          <div>
+            <input defaultChecked className={IFCRAILING} type="checkbox" />
+            Railings
+          </div>
+          <div>
+            <input defaultChecked className={IFCPLATE} type="checkbox" />
+            Curtain Wall Plates
+          </div>
+          <div>
+            <input defaultChecked className={IFCFURNISHINGELEMENT} type="checkbox" />
+            Furnishing Elements
           </div> */}
         </div>
       )}
