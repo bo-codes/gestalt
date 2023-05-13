@@ -47,7 +47,7 @@ const IFCModelViewer = ({ ifcFile }) => {
   // STATE THAT HOLDS PROGRESS TO DISPLAY
   const [progress, setProgress] = useState(0);
   const [modelLoaded, setModelLoaded] = useState(false);
-  const [modelTypes, setModelTypes] = useState(false);
+  const [ifcCategories, setIfcCategories] = useState(false);
   const [currentModel, setCurrentModel] = useState();
 
   // REF TO DOM ELEMENT WHERE WE WILL RENDER
@@ -130,31 +130,35 @@ const IFCModelViewer = ({ ifcFile }) => {
       ifcLoader.load(
         ifcFile,
         async (model) => {
-          setCurrentModel(model);
+          let uniqueTypes;
+          if (!ifcCategories) {
+            const tree = await ifcLoader.ifcManager.getSpatialStructure(0);
+            const floors = tree.children[0].children[0].children;
 
-          const tree = await ifcLoader.ifcManager.getSpatialStructure(0);
-          const floors = tree.children[0].children[0].children;
+            const calcUniqueTypes = (arr) => {
+              const unique = {};
+              for (let j = 0; j < arr.length; j++) {
+                let currFloor = arr[j];
 
-          const calcUniqueTypes = (arr) => {
-            const unique = [];
-            for (let j = 0; j < arr.length; j++) {
-              let currFloor = arr[j];
-
-              // console.log(currFloor, 'values')
-              const values = Object.values(currFloor.children);
-              for (let i = 0; i < values.length; i++) {
-                let currType = values[i];
-                // console.log(currType)
-                if (currType && !unique.includes(currType.type)) {
-                  unique.push([currType.type, organizedTypes[currType.type]]);
+                const values = Object.values(currFloor.children);
+                for (let i = 0; i < values.length; i++) {
+                  let currType = values[i];
+                  if (
+                    currType &&
+                    !(unique[currType.type])
+                  ) {
+                    unique[currType.type] = [currType.type, organizedTypes[currType.type]]
+                  }
                 }
               }
-            }
-            return unique;
-          };
-          const uniqueTypes = calcUniqueTypes(floors);
-          // console.log(uniqueTypes)
-          await setupAllCategories(uniqueTypes);
+              return unique;
+            };
+            uniqueTypes = calcUniqueTypes(floors);
+            setIfcCategories(Object.values(uniqueTypes));
+          }
+          if (ifcCategories) {
+            await setupAllCategories(Object.values(ifcCategories));
+          }
           renderer.render(scene, camera);
           setModelLoaded(true);
         },
@@ -270,7 +274,6 @@ const IFCModelViewer = ({ ifcFile }) => {
     // Creates a new subset containing all elements of a category
     async function newSubsetOfType(category) {
       const ids = await getAll(category);
-      // console.log(ids, 'ids')
       return ifcLoader.ifcManager.createSubset({
         modelID: 0,
         scene,
@@ -283,9 +286,8 @@ const IFCModelViewer = ({ ifcFile }) => {
     // Stores the created subsets
     const subsets = {};
 
-    async function setupAllCategories() {
+    async function setupAllCategories(categories) {
       const allCategories = categories;
-      // console.log(allCategories)
       for (let i = 0; i < allCategories.length; i++) {
         const currCategory = allCategories[i][1];
         await setupCategory(currCategory);
@@ -299,7 +301,7 @@ const IFCModelViewer = ({ ifcFile }) => {
     }
 
     // Sets up the checkbox event to hide / show elements
-    function setupCheckBox(category) {
+    async function setupCheckBox(category) {
       const checkBox = document.getElementsByClassName(category)[0];
       checkBox.addEventListener("change", (event) => {
         const checked = event.target.checked;
@@ -316,10 +318,10 @@ const IFCModelViewer = ({ ifcFile }) => {
     };
     animate();
 
-    // return () => {
-    //   containerRef2.removeChild(renderer.domElement);
-    // };
-  }, [ifcFile]);
+    return () => {
+      containerRef2.removeChild(renderer.domElement);
+    };
+  }, [ifcFile, ifcCategories]);
 
   return (
     <>
@@ -330,9 +332,9 @@ const IFCModelViewer = ({ ifcFile }) => {
           <p>%</p>
         </Progress>
       )}
-      {progress === 100 && !modelLoaded && <p>Merging Geometry...</p>}
+      {!modelLoaded && <p>Merging Geometry...</p>}
         <div className="checkboxes">
-          {categories.map((category, i) => {
+          {ifcCategories && ifcCategories.map((category, i) => {
             return (
               <div key={i}>
                 <input
@@ -344,6 +346,7 @@ const IFCModelViewer = ({ ifcFile }) => {
               </div>
             );
           })}
+          {/* {ifcCategories} */}
           {/* <div>
             <input
               defaultChecked
