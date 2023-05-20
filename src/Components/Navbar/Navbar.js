@@ -8,7 +8,7 @@ const navData = {
     { label: "Home", path: "/" },
     { label: "Work", path: "/work" },
     { label: "About", path: "/about" },
-    { label: "Services", path: "/services" },
+    // { label: "Services", path: "/services" },
   ],
 };
 

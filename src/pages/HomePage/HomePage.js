@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "./HomePage.css";
 import ThreeFileViewer from "../../Components/ObjectViewer/ObjectViewer";
-// import gestaltCube from "../../images/models/gestalt_cube_cut_2.obj"
+import $ from "jquery";
+import "./HomePage.css";
 
 export default function HomePage() {
   const completeText = "GESTALT 3D TECHNOLOGIES";
@@ -20,7 +20,6 @@ export default function HomePage() {
 
   const [hit8, setHit8] = useState(0);
 
-  //
   const randomCharIndex = () => {
     return Math.floor(Math.random() * (alph.length - 0 + 1) + 0);
   };
@@ -29,27 +28,19 @@ export default function HomePage() {
     return fullText.slice(0, timeNumber);
   };
 
-  // calculates the snippet we want of the email text
-  // const secondCalcText = (fullText) => {
-  //   return fullText.slice(0, secondTimeNumber);
-  // };
-
-  // calculates the amount of time it should take to type the next letter of the email. We want it to be irregular, that's why
-  // const calcTypeTimer = () => {
-  //   return Math.floor(Math.random() * (350 - 50 + 1) + 50);
-  // };
-
-  // useEffect(() => {
-  //   let animationInterval;
-  //   animationInterval = setInterval(() => {
-  //     setAnimationDone(!animationDone);
-  //   }, 4200);
-  //   return () => clearInterval(animationInterval);
-  // });
+  useEffect(() => {
+    const formatCircle = () => {
+      const text = document.getElementById("circle-text");
+      text.innerHTML = text.textContent.replace(/\S/g, "<span class='circle-char'>$&</span>");
+      const ele = document.querySelectorAll('.circle-char');
+      for (let i = 1; i < ele.length; i++) {
+        ele[i].style.transform = "rotate(" + i * 365/ele.length + "deg)";
+      }
+    };
+    formatCircle();
+  }, []);
 
   useEffect(() => {
-    // console.log(animationDone)
-    // console.log(timeText)
     let gestaltInterval;
     if (timeNumber <= completeText.length) {
       gestaltInterval = setInterval(() => {
@@ -66,7 +57,7 @@ export default function HomePage() {
         // setTimeText(completeText)
         // setTimeNumber(completeText.length + 1);
         // setRandomChar('')
-        setAnimationDone(true)
+        setAnimationDone(true);
         document.removeEventListener("click", stopAnimation);
         document.removeEventListener("keypress", stopAnimation);
       };
@@ -76,12 +67,66 @@ export default function HomePage() {
         clearInterval(gestaltInterval);
       };
     }
-    return () => setAnimationDone(false)
+    $(document).ready(function () {
+      $(document.getElementById('three-container')).mousemove(function (e) {
+        $("#circle-text").css({ left: e.offsetX-25, top: e.offsetY-17});
+        $(".circle-char").css({ "animation": "scopeFocus 1s forwards" });
+        e.stopPropagation()
+      });
+      $(document.getElementById('cube-container')).mouseleave(function (e) {
+        // console.log('mouseleave')
+        $("#circle-text").css({
+          left: " -5%",
+          top: " 43%",
+        });
+        $(".circle-char").css({
+          "transform-origin": "200px",
+          animation: "none"
+          // animation: "scopeUnfocus 1s forwards",
+        });
+      });
+    })
+    // const hoverFocus = () => {
+    //   $(document).mousemove(function (e) {
+    //     $("#circle-text").css({ left: e.pageX, top: e.pageY });
+    //     $(".circle-char").css({ "transform-origin": '20px' });
+    //   });
+    // }
+
+    return () => {
+      setAnimationDone(false);
+    }
   });
 
   return (
     <div id="main-div-coming-soon">
-        <div id="gestalt-text">
+      {/* <h1 id="circle-text">GESTALT 3D TECHNOLOGIES</h1> */}
+      <div id="cube-container">
+        <h1 id="circle-text">G3T</h1>
+        <div id="three-container-container">
+          <div id="circle-boundary"></div>
+          <div
+            id="three-container"
+            // onMouseEnter={() => {
+            //   console.log('enter')
+            //   $(document).mousemove(function (e) {
+            //     $("#circle-text").css({ left: e.offsetX, top: e.offsetY - 28 });
+            //     $(".circle-char").css({ "transform-origin": "0 20px" });
+            //   });
+            // }}
+            // onMouseLeave={() => {
+            //   console.log('leave')
+            //   $(document).mousemove(function () {
+            //     $("#circle-text").css({ left:" 52%", top:" -5%" });
+            //     $(".circle-char").css({ "transform-origin": "0 200px" });
+            //   });
+            // }}
+          >
+            <ThreeFileViewer />
+          </div>
+        </div>
+      </div>
+      {/* <div id="gestalt-text">
           {animationDone ? (
             <>
               <div id="coming-soon-gestalt-text">{completeText}</div>
@@ -97,10 +142,7 @@ export default function HomePage() {
                 </span>
               </>
           )}
-        </div>
-        <div id="three-container">
-          <ThreeFileViewer/>
-        </div>
+        </div> */}
     </div>
   );
 }

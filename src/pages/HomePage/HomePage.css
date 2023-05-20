@@ -7,9 +7,25 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 90%;
-  height: 75vh;
+  /* height: 90%; */
+  height: 100%;
+  z-index: 0;
   /* border: 1px solid orange; */
+}
+
+#three-container-container {
+  /* border: 1px solid orange; */
+  width: 360px;
+  height: 360px;
+}
+
+#cube-container {
+  position: relative;
+  display: grid;
+  /* border: 1px solid blue; */
+  width: 360px;
+  height: 360px;
+  place-items: center;
 }
 
 #gestalt-text {
@@ -19,6 +35,73 @@
   padding-left: 3.5vh;
   padding-bottom: 150px;
   /* border: 1px solid purple; */
+}
+
+#circle-text {
+  /* border: 1px solid red; */
+  /* height: 160px; */
+  position: absolute;
+  top: 43%;
+  left: -5%;
+  font-family: futura-pt, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  z-index: 3;
+  /* animation: spin 8s linear infinite; */
+}
+
+@keyframes spin{
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes crossheirMove{
+  from {
+    transform-origin: 200px;
+  }
+  to {
+    transform-origin: 25px;
+  }
+}
+
+@keyframes scopeFocus{
+  from {
+    transform-origin: 200px;
+  }
+  to {
+    transform-origin: 25px;
+  }
+}
+
+@keyframes scopeUnfocus{
+  from {
+    transform-origin: 25px;
+  }
+  to {
+    transform-origin: 200px;
+  }
+}
+
+.circle-char {
+  position: absolute;
+  /* transform: rotate(30deg); */
+  color: rgb(228, 53, 255);
+  transform-origin: 200px;
+}
+
+#circle-boundary {
+  position: absolute;
+  background-color: rgba(255, 0, 0, 0.478);
+  /* z-index: 2; */
+  /* opacity: 0%; */
+  height: 360px;
+  width: 360px;
+  border-radius: 50%;
 }
 
 #coming-soon-gestalt-text {
@@ -245,7 +328,11 @@
 }
 
 #three-container {
-  /* border: 1px solid blue; */
+  /* border: 1px solid green; */
+  position: absolute;
+  height: 360px;
+  width: 360px;
+  z-index: 2;
   /* width: 200px;
   height: 200px; */
 }
@@ -298,7 +385,7 @@
   }
 
   #three-container {
-    
+
   }
 
   @keyframes focus {

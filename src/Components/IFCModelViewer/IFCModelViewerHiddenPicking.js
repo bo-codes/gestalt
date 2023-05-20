@@ -66,6 +66,9 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
     ["IFCFURNISHINGELEMENT",IFCFURNISHINGELEMENT],
   ];
 
+  // let currModel;
+  const ifcModels = [];
+
   // ON EACH RENDER
   useEffect(() => {
     let containerRef2 = containerRef.current;
@@ -118,8 +121,8 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
       acceleratedRaycast
     );
 
-    const ifcModels = [];
 
+    // currModel = loadModel();
     const loadModel = () => {
       ifcLoader.load(
         ifcFile,
@@ -297,7 +300,6 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
         const subset = subsets[category];
         if (checked) {
           scene.add(subset);
-          console.log(scene);
         }
         else {
           subset.removeFromParent();

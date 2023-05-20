@@ -118,7 +118,8 @@ const IfcModelViewer = () => {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ width: "100%", height: "100%" }}></div>
+    <div id="outer-circle-boundary" ref={containerRef} style={{ width: "100%", height: "100%" }}>
+    </div>
   );
 };
 
