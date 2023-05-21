@@ -39,7 +39,8 @@
 
 #circle-text {
   /* border: 1px solid red; */
-  /* height: 160px; */
+  display: flex;
+  justify-content: center;
   position: absolute;
   top: 43%;
   left: -5%;
@@ -88,6 +89,7 @@
 }
 
 .circle-char {
+  /* border: 1px solid blue; */
   position: absolute;
   /* transform: rotate(30deg); */
   color: rgb(228, 53, 255);

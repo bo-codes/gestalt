@@ -75,15 +75,27 @@ export default function HomePage() {
       });
       $(document.getElementById('cube-container')).mouseleave(function (e) {
         // console.log('mouseleave')
-        $("#circle-text").css({
-          left: " -5%",
-          top: " 43%",
-        });
-        $(".circle-char").css({
-          "transform-origin": "200px",
-          animation: "none"
-          // animation: "scopeUnfocus 1s forwards",
-        });
+        // $("#circle-text").css({
+        //   left: " -5%",
+        //   top: " 43%",
+        // });
+        $("#circle-text").animate(
+          {
+            left: "-5%",
+            top: "43%",
+          },
+          1000,
+          function () {
+            // Animation complete.
+          }
+        );
+
+        // $(".circle-char").css({
+        //   "transform-origin": "200px",
+        //   animation: "none"
+        //   // animation: "scopeUnfocus 1s forwards",
+        // });
+        $(".circle-char").css({ animation: "scopeUnfocus 1s forwards" });
       });
     })
     // const hoverFocus = () => {
