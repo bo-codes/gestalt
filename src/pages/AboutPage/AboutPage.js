@@ -44,14 +44,19 @@ const AboutPage = () => {
           <div id="about-name">Estevan</div>
           <div id="about-titles">VDC | BIM | 3D</div>
           {!loading ? (
-            <div style={{ height: "110px" }}>
-              <TextScan
+            <div id="about-text-1"
+              style={{
+                height: "110px",
+              }}
+            >
+              {/* <TextScan
                 inText={alph}
                 scanStyle={"alph"}
                 fontSize={"15px"}
                 style={"default"}
                 animationSpeed={2}
-              />
+              /> */}
+              {alph}
             </div>
           ) : (
             <div style={{ height: "110px" }}></div>

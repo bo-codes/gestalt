@@ -48,8 +48,9 @@
 
 #gestalt-title-p {
   font-family: "interface", sans-serif;
-  font-weight: 400;
+  font-weight: 300;
   font-style: normal;
+  box-sizing: border-box;
 }
 
 #gestalt-text {

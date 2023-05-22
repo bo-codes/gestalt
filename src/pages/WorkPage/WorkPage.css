@@ -1,6 +1,8 @@
 #workpage-container {
-  height: 100vh;
-  width: 100vw;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  padding-top: 100px;
   /* border: 1px orange; */
   /* background-color: red; */
   display: flex;

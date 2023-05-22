@@ -37,7 +37,7 @@ import organizedTypes from "./IFCTypes";
 
 import styled from "styled-components";
 
-// import './IFCModelViewer.css'
+import './IFCModelViewer.css'
 
 const Progress = styled.div`
   display: flex;
@@ -314,6 +314,8 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
       controls.update();
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
+      renderer.domElement.style = "display: block; width: 100%; height: 100%"
+      console.log(renderer.domElement)
     };
 
     animate();
@@ -324,7 +326,7 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
   }, []);
 
   return (
-    <div>
+    <div id="entire-ifc-viewer">
       {!modelLoaded && (
         <Progress>
           <p>Progress:</p>
@@ -358,10 +360,9 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
         }}
       >{currSelected}</div>
       <div
+        id="canvas-container"
         ref={containerRef}
         style={{
-          width: "100%",
-          height: "100%",
           display: !modelLoaded ? "none" : "block",
           // border: '1px solid red',
         }}

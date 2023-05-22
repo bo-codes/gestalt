@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ThreeFileViewer from "../../Components/ObjectViewer/ObjectViewer";
+import TextScan from 'text-scan'
 import $ from "jquery";
 import "./HomePage.css";
+
+const lorem = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis"
 
 export default function HomePage() {
   const completeText = "GESTALT 3D TECHNOLOGIES";
@@ -115,14 +118,24 @@ export default function HomePage() {
     <div id="main-div-coming-soon">
       <div id="gestalt-home-title">
         <h1 id="gestalt-title-text">
-          GESTALT <span style={{fontWeight: '300'}}>3D TECHNOLOGIES</span>
+          GESTALT <span style={{ fontWeight: "300" }}>3D TECHNOLOGIES</span>
         </h1>
         <p id="gestalt-title-p">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          mollitia, molestiae quas vel sint commodi repudiandae consequuntur
-          voluptatum laborum numquam blanditiis harum quisquam eius sed odit
-          fugiat iusto fuga praesentium optio, eaque rerum! Provident similique
-          accusantium nemo autem. Veritatis
+          <TextScan
+            inText={lorem}
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              flexWrap: "wrap",
+              // marginTop: "30px",
+              lineHeight: "1.4",
+              // fontWeight: "500",
+              fontStyle: "normal",
+              color: "#8e8e8e",
+            }}
+            fontSize={"16px"}
+            animationSpeed={1}
+          />
         </p>
       </div>
       <div id="cube-container">
