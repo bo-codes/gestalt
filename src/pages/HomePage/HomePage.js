@@ -38,6 +38,37 @@ export default function HomePage() {
       }
     };
     formatCircle();
+    $(document).ready(function () {
+      $(document.getElementById("three-container")).mousemove(function (e) {
+        $("#circle-text").css({ left: e.offsetX - 25, top: e.offsetY - 17 });
+        $(".circle-char").css({ animation: "scopeFocus 1s forwards" });
+        e.stopPropagation();
+      });
+      $(document.getElementById("cube-container")).mouseleave(function (e) {
+        // console.log('mouseleave')
+        // $("#circle-text").css({
+        //   left: " -5%",
+        //   top: " 43%",
+        // });
+        $("#circle-text").animate(
+          {
+            left: "-5%",
+            top: "43%",
+          },
+          1000,
+          function () {
+            // Animation complete.
+          }
+        );
+
+        // $(".circle-char").css({
+        //   "transform-origin": "200px",
+        //   animation: "none"
+        //   // animation: "scopeUnfocus 1s forwards",
+        // });
+        $(".circle-char").css({ animation: "scopeUnfocus 1s forwards" });
+      });
+    });
   }, []);
 
   useEffect(() => {
@@ -67,37 +98,7 @@ export default function HomePage() {
         clearInterval(gestaltInterval);
       };
     }
-    $(document).ready(function () {
-      $(document.getElementById('three-container')).mousemove(function (e) {
-        $("#circle-text").css({ left: e.offsetX-25, top: e.offsetY-17});
-        $(".circle-char").css({ "animation": "scopeFocus 1s forwards" });
-        e.stopPropagation()
-      });
-      $(document.getElementById('cube-container')).mouseleave(function (e) {
-        // console.log('mouseleave')
-        // $("#circle-text").css({
-        //   left: " -5%",
-        //   top: " 43%",
-        // });
-        $("#circle-text").animate(
-          {
-            left: "-5%",
-            top: "43%",
-          },
-          1000,
-          function () {
-            // Animation complete.
-          }
-        );
 
-        // $(".circle-char").css({
-        //   "transform-origin": "200px",
-        //   animation: "none"
-        //   // animation: "scopeUnfocus 1s forwards",
-        // });
-        $(".circle-char").css({ animation: "scopeUnfocus 1s forwards" });
-      });
-    })
     // const hoverFocus = () => {
     //   $(document).mousemove(function (e) {
     //     $("#circle-text").css({ left: e.pageX, top: e.pageY });
@@ -112,7 +113,18 @@ export default function HomePage() {
 
   return (
     <div id="main-div-coming-soon">
-      {/* <h1 id="circle-text">GESTALT 3D TECHNOLOGIES</h1> */}
+      <div id="gestalt-home-title">
+        <h1 id="gestalt-title-text">
+          GESTALT <span style={{fontWeight: '300'}}>3D TECHNOLOGIES</span>
+        </h1>
+        <p id="gestalt-title-p">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
+          mollitia, molestiae quas vel sint commodi repudiandae consequuntur
+          voluptatum laborum numquam blanditiis harum quisquam eius sed odit
+          fugiat iusto fuga praesentium optio, eaque rerum! Provident similique
+          accusantium nemo autem. Veritatis
+        </p>
+      </div>
       <div id="cube-container">
         <h1 id="circle-text">G3T</h1>
         <div id="three-container-container">

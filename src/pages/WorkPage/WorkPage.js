@@ -6,7 +6,7 @@ import './WorkPage.css'
 
 const WorkPage = () => {
   return (
-    <div>
+    <div id='workpage-container'>
       <IFCModelViewerHiddenPicking ifcFile={exampleFile} />
     </div>
   );

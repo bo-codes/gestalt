@@ -37,6 +37,8 @@ import organizedTypes from "./IFCTypes";
 
 import styled from "styled-components";
 
+// import './IFCModelViewer.css'
+
 const Progress = styled.div`
   display: flex;
 `;
@@ -340,8 +342,9 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
       >
         {categories.map((category, i) => {
           return (
-            <div key={i}>
+            <div key={i} id="checkbox-container">
               <input defaultChecked className={category[1]} type="checkbox" />
+              <span class="checkmark"></span>
               {category[0]}
             </div>
           );
