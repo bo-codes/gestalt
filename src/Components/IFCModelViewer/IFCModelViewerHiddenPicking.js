@@ -150,8 +150,8 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
           };
           const uniqueTypes = calcUniqueTypes(floors);
           // console.log(uniqueTypes)
-          await setupAllCategories();
-          renderer.render(scene, camera);
+          // await setupAllCategories();
+          // renderer.render(scene, camera);
         },
         (event) => {
           const percent = (event.loaded / event.total) * 100;
@@ -165,7 +165,9 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
 
     if (ifcFile) {
       loadModel()
+      scene.add(ifcModels[0])
     }
+
 
 
 
@@ -315,7 +317,6 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
       renderer.domElement.style = "display: block; width: 100%; height: 100%"
-      console.log(renderer.domElement)
     };
 
     animate();

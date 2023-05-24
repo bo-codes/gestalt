@@ -13,3 +13,12 @@ const WorkPage = () => {
 }
 
 export default WorkPage;
+
+// STEPS FOR MODEL PROCESSING/LOADING
+
+// MODEL LOADING
+/*
+ifcFile
+ifcLoader(new IFCLoader())
+
+*/
