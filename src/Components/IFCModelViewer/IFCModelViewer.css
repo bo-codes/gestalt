@@ -63,6 +63,16 @@
   transform: rotate(45deg);
 } */
 
+.checkboxes {
+  background-color: white;
+  padding: 20px;
+  font-family: futura-pt, sans-serif;
+  font-weight: 500;
+}
+
+#checkbox-container {
+  color: black;
+}
 
 #entire-ifc-viewer {
   /* border: 1px solid orange; */
@@ -73,4 +83,14 @@
 #canvas-container {
   width: 100%;
   height: 100%;
+}
+
+#curr-selected-element {
+  position: absolute;
+  right: 0;
+  margin-right: 100px;
+  background-color: white;
+  color: black;
+  font-family: futura-pt, sans-serif;
+  padding: 20px;
 }

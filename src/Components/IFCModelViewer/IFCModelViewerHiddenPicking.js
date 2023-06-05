@@ -18,26 +18,42 @@ import { MeshLambertMaterial } from "three";
 
 // IMPORTS FOR HIDING
 import {
-  IFCWALLSTANDARDCASE,
-  IFCWALL,
-  IFCSLAB,
+  // IFCWALLSTANDARDCASE,
+  // IFCWALL,
+  // IFCSLAB,
+  // IFCBUILDINGELEMENTPROXY,
+  // IFCROOF,
+  // IFCMEMBER,
+  // IFCBEAM,
+  // IFCPLATE,
+  // IFCRAILING,
+  // IFCDOOR,
+  // IFCCOLUMN,
+  // IFCSTAIRFLIGHT,
+  // IFCFURNISHINGELEMENT,
+  IFCFLOWTERMINAL,
   IFCBUILDINGELEMENTPROXY,
-  IFCROOF,
-  IFCMEMBER,
-  IFCBEAM,
-  IFCPLATE,
-  IFCRAILING,
-  IFCDOOR,
+  IFCFLOWSEGMENT,
+  IFCFLOWFITTING,
   IFCCOLUMN,
+  IFCWALLSTANDARDCASE,
+  IFCSLAB,
+  IFCWALL,
+  IFCDOOR,
+  IFCCURTAINWALL,
+  IFCPLATE,
+  IFCMEMBER,
   IFCSTAIRFLIGHT,
-  IFCFURNISHINGELEMENT,
+  IFCSTAIR,
+  IFCCOVERING,
+  IFCRAILING
 } from "web-ifc";
 
 import organizedTypes from "./IFCTypes";
 
 import styled from "styled-components";
 
-import './IFCModelViewer.css'
+import "./IFCModelViewer.css";
 
 const Progress = styled.div`
   display: flex;
@@ -47,25 +63,28 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
   // STATE THAT HOLDS PROGRESS TO DISPLAY
   const [progress, setProgress] = useState(0);
   const [modelLoaded, setModelLoaded] = useState(false);
-  const [currSelected, setCurrSelected] = useState()
+  const [currSelected, setCurrSelected] = useState();
 
   // REF TO DOM ELEMENT WHERE WE WILL RENDER
   const containerRef = useRef(null);
 
   const categories = [
-    ["IFCWALLSTANDARDCASE",IFCWALLSTANDARDCASE],
-    ["IFCWALL",IFCWALL],
-    ["IFCSLAB",IFCSLAB],
-    ["IFCBUILDINGELEMENTPROXY",IFCBUILDINGELEMENTPROXY],
-    ["IFCROOF",IFCROOF],
-    ["IFCMEMBER",IFCMEMBER],
-    ["IFCBEAM",IFCBEAM],
-    ["IFCRAILING",IFCRAILING],
-    ["IFCDOOR",IFCDOOR],
-    ["IFCCOLUMN",IFCCOLUMN],
-    ["IFCSTAIRFLIGHT",IFCSTAIRFLIGHT],
-    ["IFCPLATE",IFCPLATE],
-    ["IFCFURNISHINGELEMENT",IFCFURNISHINGELEMENT],
+    ["IFCFLOWTERMINAL", IFCFLOWTERMINAL],
+    ["IFCBUILDINGELEMENTPROXY", IFCBUILDINGELEMENTPROXY],
+    ["IFCFLOWSEGMENT", IFCFLOWSEGMENT],
+    ["IFCFLOWFITTING", IFCFLOWFITTING],
+    ["IFCCOLUMN", IFCCOLUMN],
+    ["IFCWALLSTANDARDCASE", IFCWALLSTANDARDCASE],
+    ["IFCSLAB", IFCSLAB],
+    ["IFCWALL", IFCWALL],
+    ["IFCDOOR", IFCDOOR],
+    ["IFCPLATE", IFCPLATE],
+    ["IFCMEMBER", IFCMEMBER],
+    ["IFCCURTAINWALL", IFCCURTAINWALL],
+    ["IFCSTAIRFLIGHT", IFCSTAIRFLIGHT],
+    ["IFCSTAIR", IFCSTAIR],
+    ["IFCCOVERING", IFCCOVERING],
+    ["IFCRAILING", IFCRAILING],
   ];
 
   // let currModel;
@@ -123,7 +142,6 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
       acceleratedRaycast
     );
 
-
     // currModel = loadModel();
     const loadModel = () => {
       ifcLoader.load(
@@ -132,45 +150,67 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
           ifcModels.push(model);
           const tree = await ifcLoader.ifcManager.getSpatialStructure(0);
           const floors = tree.children[0].children[0].children;
+          console.log(ifcLoader.ifcManager.g, 'ifcManager')
 
-          const calcUniqueTypes = (arr) => {
-            const unique = [];
+          const getFloors = (arr) => {
+            let resValues = []
             for (let j = 0; j < arr.length; j++) {
               let currFloor = arr[j];
 
               const values = Object.values(currFloor.children);
-              for (let i = 0; i < values.length; i++) {
-                let currType = values[i];
-                if (currType && !unique.includes(currType.type)) {
-                  unique.push([currType.type, organizedTypes[currType.type]]);
-                }
+              resValues = [...resValues, ...values]
+            }
+            return resValues;
+          }
+          // console.log(getFloors(floors))
+
+          const getAllTypes = (typesArr, uniques=[]) => {
+            for (let currType of typesArr) {
+              if (currType.children.length > 0) {
+                uniques = [ ... getAllTypes(currType.children, uniques)];
+              }
+              if (!uniques.includes(currType.type)) {
+                uniques.push(currType.type)
               }
             }
-            return unique;
-          };
-          const uniqueTypes = calcUniqueTypes(floors);
+            return [...uniques]
+          }
+          // console.log(getAllTypes(getFloors(floors)))
+
+          // const calcUniqueTypes = (typesArr) => {
+          //     for (let i = 0; i < typesArr.length; i++) {
+          //       let currType = typesArr[i];
+          //       if (!uniques.includes(currType.type)) {
+          //         uniques.push(currType.type);
+          //       }
+          //       if (currType.children.length > 0) {
+          //         uniques.push(calcUniqueTypes(currType.children, uniques))
+          //       }
+          //       return uniques
+          //     }
+          //     if (queue.length > 0) {
+          //       // return
+          //     }
+          //   return unique;
+          // }
+          // const uniqueTypes = calcUniqueTypes(floors);
           // console.log(uniqueTypes)
-          // await setupAllCategories();
-          // renderer.render(scene, camera);
+          await setupAllCategories();
+          renderer.render(scene, camera);
         },
         (event) => {
           const percent = (event.loaded / event.total) * 100;
           const result = Math.trunc(percent);
           setProgress(result);
-          setModelLoaded(true)
+          setModelLoaded(true);
         },
         (err) => console.log(err)
       );
-    }
+    };
 
     if (ifcFile) {
-      loadModel()
-      scene.add(ifcModels[0])
+      loadModel();
     }
-
-
-
-
 
     // ------------------ CREATING PICKER FUNCTION ------------------vv
     const raycaster = new Raycaster();
@@ -207,6 +247,8 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
         const props = await ifc.getItemProperties(modelID, id);
         console.log(JSON.stringify(props.Name.value, null, null));
         setCurrSelected(JSON.stringify(props.Name.value, null, null));
+      } else {
+        setCurrSelected('')
       }
     }
 
@@ -267,8 +309,47 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
     // ------------------ CREATING SUBSET FUNCTION ------------------^^
 
     // // ------------------ CREATING HIDING FUNCTION ------------------vv
-    async function getAll(category) {
-      return await ifcLoader.ifcManager.getAllItemsOfType(0, category, false);
+    const subsets = {};
+
+    const getFloors = (arr) => {
+      let resValues = [];
+      for (let j = 0; j < arr.length; j++) {
+        let currFloor = arr[j];
+
+        const values = Object.values(currFloor.children);
+        resValues = [...resValues, ...values];
+      }
+      return resValues;
+    };
+
+    const getAllTypes = (typesArr, uniques = []) => {
+      for (let currType of typesArr) {
+        if (currType.children.length > 0) {
+          uniques = [...getAllTypes(currType.children, uniques)];
+        }
+        if (!uniques.includes(currType.type)) {
+          uniques.push(currType.type);
+        }
+      }
+      return [...uniques];
+    };
+
+    async function setupAllCategories() {
+      const tree = await ifcLoader.ifcManager.getSpatialStructure(0);
+      const floors = tree.children[0].children[0].children;
+      console.log(getFloors(floors), 'floors')
+      console.log(getAllTypes(getFloors(floors)));
+
+      const allCategories = categories;
+      for (let i = 0; i < allCategories.length; i++) {
+        const currCategory = allCategories[i][1];
+        await setupCategory(currCategory);
+      }
+    }
+
+    async function setupCategory(category) {
+      subsets[category] = await newSubsetOfType(category);
+      setupCheckBox(category);
     }
 
     async function newSubsetOfType(category) {
@@ -282,19 +363,8 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
       });
     }
 
-    const subsets = {};
-
-    async function setupAllCategories() {
-      const allCategories = categories;
-      for (let i = 0; i < allCategories.length; i++) {
-        const currCategory = allCategories[i][1];
-        await setupCategory(currCategory);
-      }
-    }
-
-    async function setupCategory(category) {
-      subsets[category] = await newSubsetOfType(category);
-      setupCheckBox(category);
+    async function getAll(category) {
+      return await ifcLoader.ifcManager.getAllItemsOfType(0, category, false);
     }
 
     function setupCheckBox(category) {
@@ -304,19 +374,18 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
         const subset = subsets[category];
         if (checked) {
           scene.add(subset);
-        }
-        else {
+        } else {
           subset.removeFromParent();
-          console.log(scene);
         }
       });
     }
+
     // // ------------------ CREATING HIDING FUNCTION ------------------^^
     const animate = () => {
       controls.update();
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
-      renderer.domElement.style = "display: block; width: 100%; height: 100%"
+      renderer.domElement.style = "display: block; width: 100%; height: 100%";
     };
 
     animate();
@@ -347,7 +416,7 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
           return (
             <div key={i} id="checkbox-container">
               <input defaultChecked className={category[1]} type="checkbox" />
-              <span class="checkmark"></span>
+              <span className="checkmark"></span>
               {category[0]}
             </div>
           );
@@ -356,10 +425,19 @@ const IFCModelViewerHiddenPicking = ({ ifcFile }) => {
       <div
         style={{
           display: !modelLoaded ? "none" : "block",
-          position: "absolute",
-          right:'0'
         }}
-      >{currSelected}</div>
+        id="curr-selected-element"
+      >
+        <span
+          style={{
+            color: "black",
+            fontWeight: "500",
+          }}
+        >
+          Currently Selected:{" "}
+        </span>
+        {currSelected}
+      </div>
       <div
         id="canvas-container"
         ref={containerRef}
